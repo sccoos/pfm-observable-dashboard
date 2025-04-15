@@ -4,7 +4,7 @@ import L from "npm:leaflet";
 
 //import * as d3 from "npm:d3-time-format";
 
-const contours = await FileAttachment("data/all_dye_contours.json").json()
+//const contours = await FileAttachment("data/all_dye_contours.json").json()
 
 let shore_points = await FileAttachment("data/all_shore_points.json").json()
 
@@ -108,7 +108,7 @@ function renderJSONContours(keyframe, basetileID) {
         layer.removeFrom(map);
     });
 
-    var curContour = L.geoJSON(JSON.parse(contours[keyframe]), {style: setContourStyle})
+    var curContour = L.geoJSON(JSON.parse(all_contours.arr[keyframe]), {style: setContourStyle})
     curContour.addTo(map);
 
     var geoJson = new L.geoJSON(JSON.parse(shore_points[keyframe]), {
