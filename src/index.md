@@ -108,7 +108,7 @@ function renderJSONContours(keyframe, basetileID) {
         layer.removeFrom(map);
     });
 
-    var curContour = L.geoJSON(JSON.parse(all_contours.arr[keyframe]), {style: setContourStyle})
+    var curContour = L.geoJSON(all_contours.arr[keyframe], {style: setContourStyle})
     curContour.addTo(map);
 
     var geoJson = new L.geoJSON(JSON.parse(shore_points[keyframe]), {
