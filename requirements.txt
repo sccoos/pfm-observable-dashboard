@@ -5,3 +5,5 @@ geopandas
 shapely
 matplotlib
 numpy
+netcdf4
+scipy
