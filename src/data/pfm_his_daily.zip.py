@@ -15,7 +15,7 @@ import sys
 ## Read NetCDF file
 ### Read .nc model output from Falk web server
 # TODO need to use dynamic datestring
-tempfile = "/data/tmp/temp.nc"
+tempfile = "temp.nc"
 x = "https://falk.ucsd.edu/PFM_Forecast/LV4_His/LV4_ocean_his_202504160000.nc" 
 urllib.request.urlretrieve(x, tempfile)
 ds = xr.open_dataset(tempfile, decode_timedelta=True)
