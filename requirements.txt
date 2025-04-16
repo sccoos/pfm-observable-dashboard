@@ -1,0 +1,7 @@
+xarray
+pandas
+geojsoncontour
+geopandas
+shapely
+matplotlib
+numpy
