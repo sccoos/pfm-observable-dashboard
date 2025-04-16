@@ -5,8 +5,8 @@ import L from "npm:leaflet";
 //import * as d3 from "npm:d3-time-format";
 
 //const contours = await FileAttachment("data/all_dye_contours.json").json()
-let test_zip = await FileAttachment("data/pfm_his_daily.zip").zip()
-let shore_points = await FileAttachment("data/pfm_his_daily/computed_shoreline_points.json").json()
+let test_zip = await FileAttachment("data/daily_his.zip").zip()
+let shore_points = await FileAttachment("data/daily_his/computed_shoreline_points.json").json()
 
 async function loadDyes() {
     let dye_01 = await FileAttachment("data/dye_01_forecast_20250316.csv").csv()
