@@ -5,7 +5,7 @@ import L from "npm:leaflet";
 //import * as d3 from "npm:d3-time-format";
 
 //const contours = await FileAttachment("data/all_dye_contours.json").json()
-
+let test_zip = await FileAttachment("data/pfm_his_daily.zip").zip()
 let shore_points = await FileAttachment("data/all_shore_points.json").json()
 
 async function loadDyes() {
