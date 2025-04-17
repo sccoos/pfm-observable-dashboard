@@ -7,7 +7,7 @@ import L from "npm:leaflet";
 //const contours = await FileAttachment("data/all_dye_contours.json").json()
 let test_zip = await FileAttachment("data/pfm_daily_his.zip").zip()
 let shoreline_point_json = await FileAttachment("data/pfm_daily_his/computed_shoreline_points.json").json()
-let dye_contour_json = await FileAttachment("data/pfm_daily_his/computed_dye_contours.json").json()
+let dye_contour_json = await loadContours()
 let site_values_csv = await FileAttachment("data/pfm_daily_his/site_timeseries.csv").csv()
 
 
@@ -20,19 +20,15 @@ let site_values_csv = await FileAttachment("data/pfm_daily_his/site_timeseries.c
 //     }
 // }
 
-// async function loadContours() {
-//     let c0 = await FileAttachment("data/dye_01_contour_example_0.json").json()
-//     let c1 = await FileAttachment("data/dye_01_contour_example_1.json").json()
-//     let c2 = await FileAttachment("data/dye_01_contour_example_2.json").json()
-//     let c3 = await FileAttachment("data/dye_01_contour_example_3.json").json()
-//     let c4 = await FileAttachment("data/dye_01_contour_example_4.json").json()
-//     let c5 = await FileAttachment("data/dye_01_contour_example_5.json").json()
-//     let c6 = await FileAttachment("data/dye_01_contour_example_6.json").json()
-//     let c7 = await FileAttachment("data/dye_01_contour_example_7.json").json()
-//     return {
-//         arr: [...c0, ...c1, ...c2, ...c3, ...c4, ...c5, ...c6, ...c7]
-//     }
-// }
+async function loadContours() {
+    let c0 = await FileAttachment("data/pfm_daily_his/computed_dye_contours_0.json").json()
+    let c1 = await FileAttachment("data/pfm_daily_his/computed_dye_contours_1.json").json()
+    let c2 = await FileAttachment("data/pfm_daily_his/computed_dye_contours_2.json").json()
+    let c3 = await FileAttachment("data/pfm_daily_his/computed_dye_contours_3.json").json()
+    return {
+        all: [...c0, ...c1, ...c2, ...c3]
+    }
+}
 
 //const all_dye = await loadDyes()
 //const all_contours = await loadContours()
@@ -95,7 +91,7 @@ function renderJSONContours(keyframe, basetileID) {
         layer.removeFrom(map);
     });
 
-    var curContour = L.geoJSON(JSON.parse(dye_contour_json[keyframe]), {style: setContourStyle})
+    var curContour = L.geoJSON(JSON.parse(dye_contour_json.all[keyframe]), {style: setContourStyle})
     curContour.addTo(map);
 
     var geoJson = new L.geoJSON(JSON.parse(shoreline_point_json[keyframe]), {
