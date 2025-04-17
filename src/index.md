@@ -8,7 +8,7 @@ import L from "npm:leaflet";
 let test_zip = await FileAttachment("data/pfm_daily_his.zip").zip()
 let shoreline_point_json = await FileAttachment("data/pfm_daily_his/computed_shoreline_points.json").json()
 let dye_contour_json = let shore_points = await FileAttachment("data/pfm_daily_his/computed_dye_contours.json").json()
-let site_values = await FileAttachment("data/pfm_daily_his/site_timeseries.csv").csv()
+let site_values_csv = await FileAttachment("data/pfm_daily_his/site_timeseries.csv").csv()
 
 
 // async function loadDyes() {
@@ -53,7 +53,7 @@ const site_map = {
   <div class="card grid-colspan-1"><h2>${getFormattedDate(keyframe)}</h2><h1>Pathogen Risk Forecast</h1>
 
 ```js
-const times = site_values.map((d) => d.time)
+const times = site_values_csv.map((d) => d.time)
 
 const keyframe = view(
     Scrubber(times, {
@@ -153,51 +153,51 @@ const curContour = renderJSONContours(keyframe, basetileID)
 ```js
 
 
-function buildStatusCard(location) {
+// function buildStatusCard(location) {
   
-    const d1_vals = all_dye.dye_01.map((a) => parseFloat(a[location]));
-    const d2_vals = all_dye.dye_02.map((a) => parseFloat(a[location]));
-    const current_val = Math.log10((10 ** parseFloat(d1_vals[keyframe]))+(10 ** parseFloat(d1_vals[keyframe])))
+//     const d1_vals = all_dye.dye_01.map((a) => parseFloat(a[location]));
+//     const d2_vals = all_dye.dye_02.map((a) => parseFloat(a[location]));
+//     const current_val = Math.log10((10 ** parseFloat(d1_vals[keyframe]))+(10 ** parseFloat(d1_vals[keyframe])))
 
-    let risk_high = -3
-    let risk_med = -5
-    let risk_low = -5.5
+//     let risk_high = -3
+//     let risk_med = -5
+//     let risk_low = -5.5
 
-    const cur_plot = Plot.plot({
-        y: {
-            grid: true
-        },
-        marks: [
-            Plot.ruleX([keyframe]),
-            Plot.lineY(d1_vals, { x: "time", y: location})
-        ]
-    })
-    var card;
+//     const cur_plot = Plot.plot({
+//         y: {
+//             grid: true
+//         },
+//         marks: [
+//             Plot.ruleX([keyframe]),
+//             Plot.lineY(d1_vals, { x: "time", y: location})
+//         ]
+//     })
+//     var card;
 
-    // Low Risk
-    if (current_val < risk_med) {
-        card = html`
-            <div class="card grid grid-cols-3" style = "height: 48px; text-align: center;">
-            <div style = "color: palegreen"><h2>${location}</h2></div><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2400"><path fill="palegreen" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg></div><div>${current_val.toFixed(2)}</div>
-            </div>
-        `;
-    // Medium Risk
-    } else if (current_val < risk_high) {
-        card = html`
-            <div class="card grid grid-cols-3" style = "height: 48px; text-align: center;">
-            <div style = "color: gold"><h2>${location}</h2></div><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2400"><path fill="gold" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg></div><div>${current_val.toFixed(2)}</div>
-            </div>
-        `;
-    // High Risk
-    } else {
-        card = html`
-            <div class="card grid grid-cols-3" style = "height: 48px; text-align: center;">
-            <div style = "color: firebrick"><h2>${location}</h2></div><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2400"><path fill="firebrick" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg></div><div>${current_val.toFixed(2)}</div>
-            </div>
-        `;
-    }
-    return card;
-}
+//     // Low Risk
+//     if (current_val < risk_med) {
+//         card = html`
+//             <div class="card grid grid-cols-3" style = "height: 48px; text-align: center;">
+//             <div style = "color: palegreen"><h2>${location}</h2></div><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2400"><path fill="palegreen" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg></div><div>${current_val.toFixed(2)}</div>
+//             </div>
+//         `;
+//     // Medium Risk
+//     } else if (current_val < risk_high) {
+//         card = html`
+//             <div class="card grid grid-cols-3" style = "height: 48px; text-align: center;">
+//             <div style = "color: gold"><h2>${location}</h2></div><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2400"><path fill="gold" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg></div><div>${current_val.toFixed(2)}</div>
+//             </div>
+//         `;
+//     // High Risk
+//     } else {
+//         card = html`
+//             <div class="card grid grid-cols-3" style = "height: 48px; text-align: center;">
+//             <div style = "color: firebrick"><h2>${location}</h2></div><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2400"><path fill="firebrick" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg></div><div>${current_val.toFixed(2)}</div>
+//             </div>
+//         `;
+//     }
+//     return card;
+// }
 ```
 
 ```js
