@@ -36,13 +36,12 @@ let site_values_csv = await FileAttachment("data/pfm_daily_his/site_timeseries.c
 
 //const all_dye = await loadDyes()
 //const all_contours = await loadContours()
-const key_locations = ['32.5199799622268', '32.58008156047890', '32.62491836486350', '32.677835882796800']
-const key_lats = [32.5199799622268, 32.58008156047890, 32.62491836486350, 32.677835882796800]
+const key_locations = site_values_csv.columns.slice(1)
 const site_map = {
-    '32.677835882796800': [32.678, -117.18],
-    '32.62491836486350': [32.625, -117.14],
-    '32.58008156047890': [32.58, -117.133],
-    '32.5199799622268': [32.552, -117.128]
+    "32.677835882796764": [32.678, -117.18],
+    "32.62491836486349": [32.625, -117.14],
+    "32.58008156047887": [32.58, -117.133],
+    "32.51997996222675": [32.552, -117.128]
 }
 
 ```
@@ -72,9 +71,6 @@ function getFormattedDate(keyframe) {
     return formatDate(iso)
 }
 ```
-
-${buildStatusCard(key_locations[5])}
-${buildStatusCard(key_locations[4])}
 ${buildStatusCard(key_locations[3])}
 ${buildStatusCard(key_locations[2])}
 ${buildStatusCard(key_locations[1])}
@@ -108,16 +104,13 @@ function renderJSONContours(keyframe, basetileID) {
       }
     }).addTo(map);
 
-    // var curPoints = L.geoJSON(JSON.parse(shore_points[keyframe]), {style: setContourStyle})
-    // curPoints.addTo(map)
-
     for (let site of key_locations) {
         let markerCol;
         let risk_high = -3
         let risk_med = -5
         let risk_low = -5.5
-        const site_vals = site_values_csv.map((a) => parseFloat(a[0]))
-        const current_val = Math.log10(parseFloat(site_vals[keyframe]))
+        const d1_vals = site_values_csv.map((a) => parseFloat(a[site]));
+        const current_val = Math.log10((d1_vals[keyframe]))
         if (current_val < risk_med) {
             markerCol = "palegreen"
         } else if (current_val < risk_high) {
