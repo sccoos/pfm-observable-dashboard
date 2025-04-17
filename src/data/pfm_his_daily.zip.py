@@ -54,14 +54,13 @@ color_map = {
     1: 'gold',
     2: 'firebrick'
 }
-cmap = plt.get_cmap('RdYlGn') # Define the contour colormap
+cmap = plt.get_cmap('magma_r') # Define the contour colormap
 plevs = np.arange(contour_lmin,contour_lmax,contour_interval) # Define the contour levels
 ds['map_dye_tot'] = np.log10(ds['map_dye_tot']+ 0.000000001) # Add a small value to avoid log(0)
-ds['map_dye_tot'] = ds['map_dye_tot'].where((ds['map_dye_tot'] <= contour_lmax) | np.isnan(ds['map_dye_tot']), contour_lmax)
 # For all timestamps
 for index in range(len(pst_datetimes)):
     fig, ax = plt.subplots()
-    cset=ax.contourf(ds['map_lon'],ds['map_lat'],ds['map_dye_tot'][index, :, :], plevs, cmap=cmap.reversed())
+    cset=ax.contourf(ds['map_lon'],ds['map_lat'],ds['map_dye_tot'][index, :, :], plevs, cmap=cmap.reversed(), extend='max')
     contour_geojson = geojsoncontour.contourf_to_geojson(
         contourf=cset,
         ndigits=8
