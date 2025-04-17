@@ -16,11 +16,11 @@ import pytz
 
 ## Read NetCDF file
 ### Read .nc model output from Falk web server
-# TODO need to use dynamic datestring
+# Get current UTC date
+current_utc_date = datetime.now(tz=pytz.utc).strftime('%Y%m%d')
 tempfile = "temp.nc"
-x = "https://falk.ucsd.edu/PFM_Forecast/LV4_His/web_data_2025041600.nc"
+x = f"https://falk.ucsd.edu/PFM_Forecast/LV4_His/web_data_{current_utc_date}.nc"
 urllib.request.urlretrieve(x, tempfile)
-#tempfile = "./web_data_2025041600.nc"
 ds = xr.open_dataset(tempfile, decode_timedelta=False)
 
 ## Sites time series csv
