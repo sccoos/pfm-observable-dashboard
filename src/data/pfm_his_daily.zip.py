@@ -18,7 +18,7 @@ import pytz
 ### Read .nc model output from Falk web server
 # TODO need to use dynamic datestring
 tempfile = "temp.nc"
-x = "https://falk.ucsd.edu/PFM_Forecast/LV4_His/LV4_ocean_his_202504160000.nc"
+x = "https://falk.ucsd.edu/PFM_Forecast/LV4_His/web_data_2025041600.nc"
 urllib.request.urlretrieve(x, tempfile)
 #tempfile = "./web_data_2025041600.nc"
 ds = xr.open_dataset(tempfile, decode_timedelta=False)
