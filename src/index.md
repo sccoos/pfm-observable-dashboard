@@ -5,10 +5,10 @@ import L from "npm:leaflet";
 //import * as d3 from "npm:d3-time-format";
 
 //const contours = await FileAttachment("data/all_dye_contours.json").json()
-let test_zip = await FileAttachment("data/pfm_daily_his.zip").zip()
-let shoreline_point_json = await FileAttachment("data/pfm_daily_his/computed_shoreline_points.json").json()
+let test_zip = await FileAttachment("data/pfm_his_daily.zip").zip()
+let shoreline_point_json = await FileAttachment("data/pfm_his_daily/computed_shoreline_points.json").json()
 let dye_contour_json = await loadContours()
-let site_values_csv = await FileAttachment("data/pfm_daily_his/site_timeseries.csv").csv()
+let site_values_csv = await FileAttachment("data/pfm_his_daily/site_timeseries.csv").csv()
 
 
 // async function loadDyes() {
@@ -21,10 +21,10 @@ let site_values_csv = await FileAttachment("data/pfm_daily_his/site_timeseries.c
 // }
 
 async function loadContours() {
-    let c0 = await FileAttachment("data/pfm_daily_his/computed_dye_contours_0.json").json()
-    let c1 = await FileAttachment("data/pfm_daily_his/computed_dye_contours_1.json").json()
-    let c2 = await FileAttachment("data/pfm_daily_his/computed_dye_contours_2.json").json()
-    let c3 = await FileAttachment("data/pfm_daily_his/computed_dye_contours_3.json").json()
+    let c0 = await FileAttachment("data/pfm_his_daily/computed_dye_contours_0.json").json()
+    let c1 = await FileAttachment("data/pfm_his_daily/computed_dye_contours_1.json").json()
+    let c2 = await FileAttachment("data/pfm_his_daily/computed_dye_contours_2.json").json()
+    let c3 = await FileAttachment("data/pfm_his_daily/computed_dye_contours_3.json").json()
     return {
         all: [...c0, ...c1, ...c2, ...c3]
     }
