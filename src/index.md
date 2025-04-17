@@ -7,7 +7,7 @@ import L from "npm:leaflet";
 //const contours = await FileAttachment("data/all_dye_contours.json").json()
 let test_zip = await FileAttachment("data/pfm_daily_his.zip").zip()
 let shoreline_point_json = await FileAttachment("data/pfm_daily_his/computed_shoreline_points.json").json()
-let dye_contour_json = let shore_points = await FileAttachment("data/pfm_daily_his/computed_dye_contours.json").json()
+let dye_contour_json = await FileAttachment("data/pfm_daily_his/computed_dye_contours.json").json()
 let site_values_csv = await FileAttachment("data/pfm_daily_his/site_timeseries.csv").csv()
 
 
@@ -36,15 +36,13 @@ let site_values_csv = await FileAttachment("data/pfm_daily_his/site_timeseries.c
 
 //const all_dye = await loadDyes()
 //const all_contours = await loadContours()
-const key_locations = ['PTJ', 'border', 'TJRE', 'IB pier', 'Silver Strand', 'HdC']
-const key_lats = [32.52, 32.534, 32.552, 32.58, 32.625, 32.678]
+const key_locations = ['32.5199799622268', '32.58008156047890', '32.62491836486350', '32.677835882796800']
+const key_lats = [32.5199799622268, 32.58008156047890, 32.62491836486350, 32.677835882796800]
 const site_map = {
-    'HdC': [32.678, -117.18],
-    'Silver Strand': [32.625, -117.14],
-    'IB pier': [32.58, -117.133],
-    'TJRE': [32.552, -117.128],
-    'border': [32.534, -117.122],
-    'PTJ': [32.52, -117.121],
+    '32.677835882796800': [32.678, -117.18],
+    '32.62491836486350': [32.625, -117.14],
+    '32.58008156047890': [32.58, -117.133],
+    '32.5199799622268': [32.552, -117.128]
 }
 
 ```
@@ -62,12 +60,11 @@ const keyframe = view(
     })
 );
 
-// function getCurrentValue(location){
-//     const d1_vals = all_dye.dye_01.map((a) => parseFloat(a[location]));
-//     const d2_vals = all_dye.dye_02.map((a) => parseFloat(a[location]));
-//     const current_val = Math.log10((10 ** parseFloat(d1_vals[keyframe]))+(10 ** parseFloat(d1_vals[keyframe])))
-//     return current_val
-// }
+function getCurrentValue(location){
+    const d1_vals = site_values_csv.map((a) => parseFloat(a[location]));
+    const current_val = Math.log10(d1_vals[keyframe])
+    return current_val
+}
 
 function getFormattedDate(keyframe) {
     var iso = Date.parse(times[keyframe])
@@ -76,12 +73,12 @@ function getFormattedDate(keyframe) {
 }
 ```
 
-<!-- ${buildStatusCard(key_locations[5])}
+${buildStatusCard(key_locations[5])}
 ${buildStatusCard(key_locations[4])}
 ${buildStatusCard(key_locations[3])}
 ${buildStatusCard(key_locations[2])}
 ${buildStatusCard(key_locations[1])}
-${buildStatusCard(key_locations[0])} -->
+${buildStatusCard(key_locations[0])}
 </div>
     <div class="card grid-colspan-2"><div id="map-SD" style="height: 80vh; width: 100%;"></div></div>
 </div>
@@ -102,10 +99,10 @@ function renderJSONContours(keyframe, basetileID) {
         layer.removeFrom(map);
     });
 
-    var curContour = L.geoJSON(dye_contour_json[keyframe], {style: setContourStyle})
+    var curContour = L.geoJSON(JSON.parse(dye_contour_json[keyframe]), {style: setContourStyle})
     curContour.addTo(map);
 
-    var geoJson = new L.geoJSON(JSON.parse(shore_points[keyframe]), {
+    var geoJson = new L.geoJSON(JSON.parse(shoreline_point_json[keyframe]), {
       pointToLayer: (feature, latlng) => {
           return new L.Circle(latlng, {radius: 45, fillOpacity: 1, color: feature.properties.risk});
       }
@@ -129,7 +126,7 @@ function renderJSONContours(keyframe, basetileID) {
             markerCol = "firebrick"
         }
         
-        //L.circleMarker(site_map[site], {color: "white", weight: 1, fillColor: markerCol, fillOpacity: 1}).addTo(map).bindTooltip(site,{permanent: true, direction: "right", offset: [10, -5]})
+        L.circleMarker(site_map[site], {color: "white", weight: 1, fillColor: markerCol, fillOpacity: 1}).addTo(map).bindTooltip(site,{permanent: true, direction: "right", offset: [10, -5]})
     }
 
     return curContour;
@@ -151,53 +148,50 @@ const curContour = renderJSONContours(keyframe, basetileID)
 
 
 ```js
-
-
-// function buildStatusCard(location) {
+function buildStatusCard(location) {
   
-//     const d1_vals = all_dye.dye_01.map((a) => parseFloat(a[location]));
-//     const d2_vals = all_dye.dye_02.map((a) => parseFloat(a[location]));
-//     const current_val = Math.log10((10 ** parseFloat(d1_vals[keyframe]))+(10 ** parseFloat(d1_vals[keyframe])))
+    const d1_vals = site_values_csv.map((a) => parseFloat(a[location]));
+    const current_val = Math.log10((d1_vals[keyframe]))
 
-//     let risk_high = -3
-//     let risk_med = -5
-//     let risk_low = -5.5
+    let risk_high = -3
+    let risk_med = -5
+    let risk_low = -5.5
 
-//     const cur_plot = Plot.plot({
-//         y: {
-//             grid: true
-//         },
-//         marks: [
-//             Plot.ruleX([keyframe]),
-//             Plot.lineY(d1_vals, { x: "time", y: location})
-//         ]
-//     })
-//     var card;
+    const cur_plot = Plot.plot({
+        y: {
+            grid: true
+        },
+        marks: [
+            Plot.ruleX([keyframe]),
+            Plot.lineY(d1_vals, { x: "time", y: location})
+        ]
+    })
+    var card;
 
-//     // Low Risk
-//     if (current_val < risk_med) {
-//         card = html`
-//             <div class="card grid grid-cols-3" style = "height: 48px; text-align: center;">
-//             <div style = "color: palegreen"><h2>${location}</h2></div><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2400"><path fill="palegreen" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg></div><div>${current_val.toFixed(2)}</div>
-//             </div>
-//         `;
-//     // Medium Risk
-//     } else if (current_val < risk_high) {
-//         card = html`
-//             <div class="card grid grid-cols-3" style = "height: 48px; text-align: center;">
-//             <div style = "color: gold"><h2>${location}</h2></div><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2400"><path fill="gold" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg></div><div>${current_val.toFixed(2)}</div>
-//             </div>
-//         `;
-//     // High Risk
-//     } else {
-//         card = html`
-//             <div class="card grid grid-cols-3" style = "height: 48px; text-align: center;">
-//             <div style = "color: firebrick"><h2>${location}</h2></div><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2400"><path fill="firebrick" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg></div><div>${current_val.toFixed(2)}</div>
-//             </div>
-//         `;
-//     }
-//     return card;
-// }
+    // Low Risk
+    if (current_val < risk_med) {
+        card = html`
+            <div class="card grid grid-cols-3" style = "height: 48px; text-align: center;">
+            <div style = "color: palegreen"><h2>${location}</h2></div><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2400"><path fill="palegreen" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg></div><div>${current_val.toFixed(2)}</div>
+            </div>
+        `;
+    // Medium Risk
+    } else if (current_val < risk_high) {
+        card = html`
+            <div class="card grid grid-cols-3" style = "height: 48px; text-align: center;">
+            <div style = "color: gold"><h2>${location}</h2></div><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2400"><path fill="gold" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg></div><div>${current_val.toFixed(2)}</div>
+            </div>
+        `;
+    // High Risk
+    } else {
+        card = html`
+            <div class="card grid grid-cols-3" style = "height: 48px; text-align: center;">
+            <div style = "color: firebrick"><h2>${location}</h2></div><div><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2400"><path fill="firebrick" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg></div><div>${current_val.toFixed(2)}</div>
+            </div>
+        `;
+    }
+    return card;
+}
 ```
 
 ```js
