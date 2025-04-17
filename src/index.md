@@ -6,33 +6,36 @@ import L from "npm:leaflet";
 
 //const contours = await FileAttachment("data/all_dye_contours.json").json()
 let test_zip = await FileAttachment("data/pfm_daily_his.zip").zip()
-let shore_points = await FileAttachment("data/pfm_daily_his/computed_shoreline_points.json").json()
+let shoreline_point_json = await FileAttachment("data/pfm_daily_his/computed_shoreline_points.json").json()
+let dye_contour_json = let shore_points = await FileAttachment("data/pfm_daily_his/computed_dye_contours.json").json()
+let site_values = await FileAttachment("data/pfm_daily_his/site_timeseries.csv").csv()
 
-async function loadDyes() {
-    let dye_01 = await FileAttachment("data/dye_01_forecast_20250316.csv").csv()
-    let dye_02 = await FileAttachment("data/dye_02_forecast_20250316.csv").csv()
-    return {
-        dye_01: dye_01,
-        dye_02: dye_02
-    }
-}
 
-async function loadContours() {
-    let c0 = await FileAttachment("data/dye_01_contour_example_0.json").json()
-    let c1 = await FileAttachment("data/dye_01_contour_example_1.json").json()
-    let c2 = await FileAttachment("data/dye_01_contour_example_2.json").json()
-    let c3 = await FileAttachment("data/dye_01_contour_example_3.json").json()
-    let c4 = await FileAttachment("data/dye_01_contour_example_4.json").json()
-    let c5 = await FileAttachment("data/dye_01_contour_example_5.json").json()
-    let c6 = await FileAttachment("data/dye_01_contour_example_6.json").json()
-    let c7 = await FileAttachment("data/dye_01_contour_example_7.json").json()
-    return {
-        arr: [...c0, ...c1, ...c2, ...c3, ...c4, ...c5, ...c6, ...c7]
-    }
-}
+// async function loadDyes() {
+//     let dye_01 = await FileAttachment("data/dye_01_forecast_20250316.csv").csv()
+//     let dye_02 = await FileAttachment("data/dye_02_forecast_20250316.csv").csv()
+//     return {
+//         dye_01: dye_01,
+//         dye_02: dye_02
+//     }
+// }
 
-const all_dye = await loadDyes()
-const all_contours = await loadContours()
+// async function loadContours() {
+//     let c0 = await FileAttachment("data/dye_01_contour_example_0.json").json()
+//     let c1 = await FileAttachment("data/dye_01_contour_example_1.json").json()
+//     let c2 = await FileAttachment("data/dye_01_contour_example_2.json").json()
+//     let c3 = await FileAttachment("data/dye_01_contour_example_3.json").json()
+//     let c4 = await FileAttachment("data/dye_01_contour_example_4.json").json()
+//     let c5 = await FileAttachment("data/dye_01_contour_example_5.json").json()
+//     let c6 = await FileAttachment("data/dye_01_contour_example_6.json").json()
+//     let c7 = await FileAttachment("data/dye_01_contour_example_7.json").json()
+//     return {
+//         arr: [...c0, ...c1, ...c2, ...c3, ...c4, ...c5, ...c6, ...c7]
+//     }
+// }
+
+//const all_dye = await loadDyes()
+//const all_contours = await loadContours()
 const key_locations = ['PTJ', 'border', 'TJRE', 'IB pier', 'Silver Strand', 'HdC']
 const key_lats = [32.52, 32.534, 32.552, 32.58, 32.625, 32.678]
 const site_map = {
@@ -44,22 +47,13 @@ const site_map = {
     'PTJ': [32.52, -117.121],
 }
 
-var greenIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
-
 ```
 
 <div class="grid grid-cols-3 grid-rows-1">
   <div class="card grid-colspan-1"><h2>${getFormattedDate(keyframe)}</h2><h1>Pathogen Risk Forecast</h1>
 
 ```js
-const times = all_dye.dye_01.map((d) => d.time)
+const times = site_values.map((d) => d.time)
 
 const keyframe = view(
     Scrubber(times, {
@@ -68,12 +62,12 @@ const keyframe = view(
     })
 );
 
-function getCurrentValue(location){
-    const d1_vals = all_dye.dye_01.map((a) => parseFloat(a[location]));
-    const d2_vals = all_dye.dye_02.map((a) => parseFloat(a[location]));
-    const current_val = Math.log10((10 ** parseFloat(d1_vals[keyframe]))+(10 ** parseFloat(d1_vals[keyframe])))
-    return current_val
-}
+// function getCurrentValue(location){
+//     const d1_vals = all_dye.dye_01.map((a) => parseFloat(a[location]));
+//     const d2_vals = all_dye.dye_02.map((a) => parseFloat(a[location]));
+//     const current_val = Math.log10((10 ** parseFloat(d1_vals[keyframe]))+(10 ** parseFloat(d1_vals[keyframe])))
+//     return current_val
+// }
 
 function getFormattedDate(keyframe) {
     var iso = Date.parse(times[keyframe])
@@ -82,12 +76,12 @@ function getFormattedDate(keyframe) {
 }
 ```
 
-${buildStatusCard(key_locations[5])}
+<!-- ${buildStatusCard(key_locations[5])}
 ${buildStatusCard(key_locations[4])}
 ${buildStatusCard(key_locations[3])}
 ${buildStatusCard(key_locations[2])}
 ${buildStatusCard(key_locations[1])}
-${buildStatusCard(key_locations[0])}
+${buildStatusCard(key_locations[0])} -->
 </div>
     <div class="card grid-colspan-2"><div id="map-SD" style="height: 80vh; width: 100%;"></div></div>
 </div>
@@ -108,7 +102,7 @@ function renderJSONContours(keyframe, basetileID) {
         layer.removeFrom(map);
     });
 
-    var curContour = L.geoJSON(all_contours.arr[keyframe], {style: setContourStyle})
+    var curContour = L.geoJSON(dye_contour_json[keyframe], {style: setContourStyle})
     curContour.addTo(map);
 
     var geoJson = new L.geoJSON(JSON.parse(shore_points[keyframe]), {
@@ -125,9 +119,8 @@ function renderJSONContours(keyframe, basetileID) {
         let risk_high = -3
         let risk_med = -5
         let risk_low = -5.5
-        const d1_vals = all_dye.dye_01.map((a) => parseFloat(a[site]));
-        const d2_vals = all_dye.dye_02.map((a) => parseFloat(a[site]));
-        const current_val = Math.log10((10 ** parseFloat(d1_vals[keyframe]))+(10 ** parseFloat(d1_vals[keyframe])))
+        const site_vals = site_values_csv.map((a) => parseFloat(a[0]))
+        const current_val = Math.log10(parseFloat(site_vals[keyframe]))
         if (current_val < risk_med) {
             markerCol = "palegreen"
         } else if (current_val < risk_high) {
@@ -136,7 +129,7 @@ function renderJSONContours(keyframe, basetileID) {
             markerCol = "firebrick"
         }
         
-        L.circleMarker(site_map[site], {color: "white", weight: 1, fillColor: markerCol, fillOpacity: 1}).addTo(map).bindTooltip(site,{permanent: true, direction: "right", offset: [10, -5]})
+        //L.circleMarker(site_map[site], {color: "white", weight: 1, fillColor: markerCol, fillOpacity: 1}).addTo(map).bindTooltip(site,{permanent: true, direction: "right", offset: [10, -5]})
     }
 
     return curContour;
