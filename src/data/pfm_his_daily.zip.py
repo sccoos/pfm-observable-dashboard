@@ -19,7 +19,7 @@ import pytz
 # Get current UTC date
 current_utc_date = datetime.now(tz=pytz.utc).strftime('%Y%m%d')
 tempfile = "temp.nc"
-x = f"https://falk.ucsd.edu/PFM_Forecast/LV4_His/web_data_{current_utc_date}.nc"
+x = f"https://falk.ucsd.edu/PFM_Forecast/LV4_His/web_data_{current_utc_date}00.nc"
 urllib.request.urlretrieve(x, tempfile)
 ds = xr.open_dataset(tempfile, decode_timedelta=False)
 
