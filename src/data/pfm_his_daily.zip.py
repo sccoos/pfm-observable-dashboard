@@ -15,9 +15,10 @@ import sys
 ## Read NetCDF file
 ### Read .nc model output from Falk web server
 # TODO need to use dynamic datestring
-tempfile = "temp.nc"
-x = "https://falk.ucsd.edu/PFM_Forecast/LV4_His/LV4_ocean_his_202504160000.nc" 
-urllib.request.urlretrieve(x, tempfile)
+# tempfile = "temp.nc"
+# x = "https://falk.ucsd.edu/PFM_Forecast/LV4_His/LV4_ocean_his_202504160000.nc" 
+# urllib.request.urlretrieve(x, tempfile)
+tempfile = "data/web_data_2025041600.nc"
 ds = xr.open_dataset(tempfile, decode_timedelta=True)
 
 ## Sites time series csv
@@ -83,11 +84,11 @@ zip_buffer = io.BytesIO()
 
 # Write JSON string to the zip file
 with zipfile.ZipFile(zip_buffer, "w") as zip_file:
-    zip_file.writestr("computed_dye_contours.json", all_contours)
+    zip_file.writestr("computed_dye_contours.json", json.dumps(all_contours))
 
  # Write JSON string to the zip file
 with zipfile.ZipFile(zip_buffer, "w") as zip_file:
-    zip_file.writestr("computed_shoreline_points.json", all_shoreline_points)
+    zip_file.writestr("computed_shoreline_points.json", json.dumps(all_shoreline_points))
 
 # Write DataFrame to a CSV file in the zip file
 with zipfile.ZipFile(zip_buffer, "a") as zip_file:
