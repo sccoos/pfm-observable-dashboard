@@ -36,10 +36,6 @@ for time in ds['time'].values:
     pst_datetime = pytz.utc.localize(utc_datetime).astimezone(pst_timezone)
     pst_datetimes.append(pst_datetime)
 
-
-# dum = ds.attrs['site info']
-# dum2 = dum[23:]
-# site_names = dum2.split(",")
 site_names = ds['sites_lat'].values
 
 # Create a pandas DataFrame for the sites dye time series
@@ -50,18 +46,22 @@ site_dye_series.insert(0, 'time', pst_datetimes)
 ## Build geometry objects for contours & shoreline indicators
 all_contours = []
 all_shoreline_points = []
-
+contour_lmin = -6
+contour_lmax = -1.5
+contour_interval = 0.5
 color_map = {
     0: 'palegreen',
     1: 'gold',
     2: 'firebrick'
 }
 cmap = plt.get_cmap('RdYlGn') # Define the contour colormap
-plevs = np.arange(-6,-1.5,.5) # Define the contour levels
+plevs = np.arange(contour_lmin,contour_lmax,contour_interval) # Define the contour levels
+ds['map_dye_tot'] = np.log10(ds['map_dye_tot']+ 0.000000001) # Add a small value to avoid log(0)
+ds['map_dye_tot'] = ds['map_dye_tot'].where((ds['map_dye_tot'] <= contour_lmax) | np.isnan(ds['map_dye_tot']), contour_lmax)
 # For all timestamps
 for index in range(len(pst_datetimes)):
     fig, ax = plt.subplots()
-    cset=ax.contourf(ds['map_lon'],ds['map_lat'],np.log10( ds['map_dye_tot'][index,:,:] + 0.000000001), plevs, cmap=cmap.reversed())
+    cset=ax.contourf(ds['map_lon'],ds['map_lat'],ds['map_dye_tot'][index, :, :], plevs, cmap=cmap.reversed())
     contour_geojson = geojsoncontour.contourf_to_geojson(
         contourf=cset,
         ndigits=8
