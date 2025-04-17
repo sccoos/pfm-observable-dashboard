@@ -60,7 +60,7 @@ ds['map_dye_tot'] = np.log10(ds['map_dye_tot']+ 0.000000001) # Add a small value
 # For all timestamps
 for index in range(len(pst_datetimes)):
     fig, ax = plt.subplots()
-    cset=ax.contourf(ds['map_lon'],ds['map_lat'],ds['map_dye_tot'][index, :, :], plevs, cmap=cmap.reversed(), extend='max')
+    cset=ax.contourf(ds['map_lon'],ds['map_lat'],ds['map_dye_tot'][index, :, :], plevs, cmap=cmap, extend='max')
     contour_geojson = geojsoncontour.contourf_to_geojson(
         contourf=cset,
         ndigits=8
