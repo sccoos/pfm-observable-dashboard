@@ -17,9 +17,9 @@ import pytz
 ## Read NetCDF file
 ### Read .nc model output from Falk web server
 # Get current UTC date
-current_utc_date = datetime.now(tz=pytz.utc).strftime('%Y%m%d')
-tempfile = "temp.nc"
-x = f"https://falk.ucsd.edu/PFM_Forecast/LV4_His/web_data_{current_utc_date}00.nc"
+#current_utc_date = datetime.now(tz=pytz.utc).strftime('%Y%m%d')
+tempfile = "web_data_latest.nc"
+x = f"https://falk.ucsd.edu/PFM_Forecast/LV4_His/web_data_latest.nc"
 urllib.request.urlretrieve(x, tempfile)
 ds = xr.open_dataset(tempfile, decode_timedelta=False)
 
@@ -36,16 +36,19 @@ for time in ds['time'].values:
     pst_datetime = pytz.utc.localize(utc_datetime).astimezone(pst_timezone)
     pst_datetimes.append(pst_datetime)
 
-site_names = ds['sites_lat'].values
+site_info_string = ds.attrs['site info']
+site_name_list = site_info_string[23:] # note: because there are 23 characters before the actual information starts
+site_names = site_name_list.split(", ")
 
 # Create a pandas DataFrame for the sites dye time series
 site_dye_series = pd.DataFrame(sites_dye_tot, columns=site_names)
 site_dye_series.insert(0, 'time', pst_datetimes)
 
 
-## Build geometry objects for contours & shoreline indicators
+## Build geometry objects for contours, shoreline indicators, & sites
 all_contours = []
 all_shoreline_points = []
+
 contour_lmin = -6
 contour_lmax = -1.5
 contour_interval = 0.5
@@ -54,13 +57,17 @@ color_map = {
     1: 'gold',
     2: 'firebrick'
 }
+risk_thresholds = {
+    'low': ds['thresh_holds'][:].values[0],
+    'high': ds['thresh_holds'][:].values[1]
+}
+
 cmap = plt.get_cmap('magma_r') # Define the contour colormap
 plevs = np.arange(contour_lmin,contour_lmax,contour_interval) # Define the contour levels
-ds['map_dye_tot'] = np.log10(ds['map_dye_tot']+ 0.000000001) # Add a small value to avoid log(0)
 # For all timestamps
 for index in range(len(pst_datetimes)):
     fig, ax = plt.subplots()
-    cset=ax.contourf(ds['map_lon'],ds['map_lat'],ds['map_dye_tot'][index, :, :], plevs, cmap=cmap, extend='max')
+    cset=ax.contourf(ds['map_lon'],ds['map_lat'],ds['map_l10_dye_tot'][index, :, :], plevs, cmap=cmap, extend='max')
     contour_geojson = geojsoncontour.contourf_to_geojson(
         contourf=cset,
         ndigits=8
@@ -102,12 +109,17 @@ with zipfile.ZipFile(zip_buffer, "a") as zip_file:
     json_string = json.dumps(all_shoreline_points)
     zip_file.writestr("computed_shoreline_points.json", json_string, compress_type=zipfile.ZIP_DEFLATED)
 
+ # Write JSON string to the zip file
+with zipfile.ZipFile(zip_buffer, "a") as zip_file:
+    json_string = json.dumps(risk_thresholds)
+    zip_file.writestr("risk_thresholds.json", json_string, compress_type=zipfile.ZIP_DEFLATED)
+
 # Write DataFrame to a CSV file in the zip file
 with zipfile.ZipFile(zip_buffer, mode = "a") as zip_file:
     df_csv_string = site_dye_series.to_csv(index=False)
     zip_file.writestr("site_timeseries.csv", df_csv_string, compress_type=zipfile.ZIP_DEFLATED)
 
-# # Write the zip file to standard output
+# Write the zip file to standard output
 # with open('pfm_daily_his.zip', 'wb') as f:
 #     f.write(zip_buffer.getvalue())
 
