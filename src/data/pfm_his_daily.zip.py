@@ -23,7 +23,7 @@ ds = xr.open_dataset(tempfile, decode_timedelta=False)
 
 ## Sites time series csv
 # Extract the sites_dye_tot variable and its coordinates
-sites_dye_tot = ds['sites_dye_tot'].values
+sites_dye_tot = ds['sites_l10_dye_tot'].values
 # Base datetime (e.g., starting point in UTC)
 base_datetime = datetime(1999, 1, 1)
 pst_datetimes = []
