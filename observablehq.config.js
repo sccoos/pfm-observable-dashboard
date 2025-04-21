@@ -2,7 +2,7 @@
 export default {
   root: "src",
   title: "Pathogen Forecast Modeling: San Diego, CA",
-  theme: "ocean-floor",
+  theme: ["default", "alt", "wide"],
   sidebar: false,
   header: false,
   footer: false,
