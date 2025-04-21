@@ -60,7 +60,7 @@ risk_thresholds = {
     'high': ds['thresh_holds'][:].values[1]
 }
 
-cmap = plt.get_cmap('RdYlGn') # Define the contour colormap
+cmap = plt.get_cmap('inferno') # Define the contour colormap
 plevs = np.arange(contour_lmin,contour_lmax,contour_interval) # Define the contour levels
 # For all timestamps
 for index in range(len(pst_datetimes)):
