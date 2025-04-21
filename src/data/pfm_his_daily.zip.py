@@ -16,9 +16,7 @@ import pytz
 
 ## Read NetCDF file
 ### Read .nc model output from Falk web server
-# Get current UTC date
-#current_utc_date = datetime.now(tz=pytz.utc).strftime('%Y%m%d')
-tempfile = "web_data_latest.nc"
+tempfile = "./web_data_latest.nc"
 x = f"https://falk.ucsd.edu/PFM_Forecast/LV4_His/web_data_latest.nc"
 urllib.request.urlretrieve(x, tempfile)
 ds = xr.open_dataset(tempfile, decode_timedelta=False)
@@ -62,12 +60,12 @@ risk_thresholds = {
     'high': ds['thresh_holds'][:].values[1]
 }
 
-cmap = plt.get_cmap('magma_r') # Define the contour colormap
+cmap = plt.get_cmap('RdYlGn') # Define the contour colormap
 plevs = np.arange(contour_lmin,contour_lmax,contour_interval) # Define the contour levels
 # For all timestamps
 for index in range(len(pst_datetimes)):
     fig, ax = plt.subplots()
-    cset=ax.contourf(ds['map_lon'],ds['map_lat'],ds['map_l10_dye_tot'][index, :, :], plevs, cmap=cmap, extend='max')
+    cset=ax.contourf(ds['map_lon'],ds['map_lat'],ds['map_l10_dye_tot'][index, :, :], plevs, cmap=cmap.reversed(), extend='max')
     contour_geojson = geojsoncontour.contourf_to_geojson(
         contourf=cset,
         ndigits=8
@@ -90,10 +88,20 @@ for index in range(len(pst_datetimes)):
     plt.close()
 
 
+# Create a GeoJSON for the site markers
+# Create a pandas DataFrame
+site_markers = {
+    'label': site_names
+}
+site_markers_df = pd.DataFrame(site_markers)
+
+# Convert to GeoPandas GeoDataFrame
+site_markers_geometries = [Point(xy) for xy in zip(ds['sites_lon'].values.tolist(), ds['sites_lat'].values.tolist())]
+site_markers = gpd.GeoDataFrame(site_markers_df, geometry=site_markers_geometries).to_json()
+
 ### Write zip archive of generated web files
 # Create a buffer
 zip_buffer = io.BytesIO()
-
 
 # Write JSON string to the zip file
 # contour needs to get chunked into 4 files
@@ -118,6 +126,11 @@ with zipfile.ZipFile(zip_buffer, "a") as zip_file:
 with zipfile.ZipFile(zip_buffer, mode = "a") as zip_file:
     df_csv_string = site_dye_series.to_csv(index=False)
     zip_file.writestr("site_timeseries.csv", df_csv_string, compress_type=zipfile.ZIP_DEFLATED)
+
+ # Write JSON string to the zip file
+with zipfile.ZipFile(zip_buffer, "a") as zip_file:
+    json_string = json.dumps(site_markers)
+    zip_file.writestr("site_markers.json", json_string, compress_type=zipfile.ZIP_DEFLATED)
 
 # Write the zip file to standard output
 # with open('pfm_daily_his.zip', 'wb') as f:
