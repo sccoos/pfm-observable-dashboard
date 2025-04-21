@@ -146,7 +146,7 @@ function renderJSONContours(keyframe, basetileID) {
 
     var siteJSON = new L.geoJSON(JSON.parse(site_markers_json), {
       pointToLayer: (feature, latlng) => {
-          return new L.circleMarker(latlng, {color: "white", weight: 1, fillColor: getCurrentStatus(keyframe, selected_location), fillOpacity: 1}).addTo(map).bindTooltip(feature.properties.label,{permanent: true, direction: "right", offset: [10, -5]})
+          return new L.circleMarker(latlng, {color: "white", weight: 1, fillColor: getCurrentStatus(keyframe, feature.properties.label), fillOpacity: 1}).addTo(map).bindTooltip(feature.properties.label,{permanent: true, direction: "right", offset: [10, -5]})
       }
     }).addTo(map);
 
