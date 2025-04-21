@@ -47,20 +47,20 @@ site_dye_series.insert(0, 'time', pst_datetimes)
 all_contours = []
 all_shoreline_points = []
 
-contour_lmin = -6
+contour_lmin = -5.5
 contour_lmax = -1.5
-contour_interval = 0.5
+contour_interval = 0.25
 color_map = {
-    0: 'palegreen',
-    1: 'gold',
-    2: 'firebrick'
+    0: 'green',
+    1: 'yellow',
+    2: 'red'
 }
 risk_thresholds = {
     'low': ds['thresh_holds'][:].values[0],
     'high': ds['thresh_holds'][:].values[1]
 }
 
-cmap = plt.get_cmap('inferno') # Define the contour colormap
+cmap = plt.get_cmap('magma') # Define the contour colormap
 plevs = np.arange(contour_lmin,contour_lmax,contour_interval) # Define the contour levels
 # For all timestamps
 for index in range(len(pst_datetimes)):
