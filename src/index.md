@@ -126,6 +126,8 @@ function onEachFeature(feature, layer) {
 <p>
 Colored contour lines represent the fraction of raw wastewater forecasted to be at the ocean surface.  A value of 1 is pure sewage (black) and a value of zero (light yellow) is pure ocean water.  Click “Play” or use the scroll-bar to the left to see the forecast.
 
+${Plot.cell(contourKey, { x: "range", fill: "color" }).plot({ padding: 0 })}
+
 Values are presented in powers of 10, such that 10-1 is 1:10 dilution or 10% raw sewage, 10-3 is 1:1000 dilution, 10-4 is 1:10,000 dilution, etc.
 
 Shoreline color represents swimmer risk based on wastewater fraction:  red is high risk, yellow is moderate risk, and green is low risk.   
