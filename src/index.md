@@ -96,7 +96,7 @@ function onEachFeature(feature, layer) {
 <div class="warning" label="Beta Release Notes:">This forecast is highly-experimental and is in limited beta release: not for official use. This forecast updates at 6:30am US/Pacific. Occasionally if forecasts fail, the forecast date is a day behind.<hr/>The current forecast range is: ${times[0]} through ${times[times.length-1]}.</div>
 </div>
 
-<div id = "site-ts" class="card grid-colspan-2 grid-rowspan-1" style="height: 100%; min-height: 200px;">
+<div id = "site-ts" class="card grid-colspan-2" style="min-height: 200px;">
 <h1>${buildStatusCard(getCurrentSite())}</h1><h2>${getFormattedDate(keyframe)}</h2>
   ${resize((width, height) => Plot.plot({
     width: width,
