@@ -19,7 +19,8 @@ site_values_csv = site_values_csv.map((d) => ({
 const contourKey = JSON.parse(dye_contour_json.all[0]).features.map(feature => ({
   range: feature.properties.title,
   color: feature.properties.fill
-}));
+}))
+contourKey.pop();
 
 async function loadContours() {
     let c0 = await FileAttachment("data/pfm_his_daily/computed_dye_contours_0.json").json()
@@ -126,7 +127,7 @@ function onEachFeature(feature, layer) {
 <p>
 Colored contour lines represent the fraction of raw wastewater forecasted to be at the ocean surface.  A value of 1 is pure sewage (black) and a value of zero (light yellow) is pure ocean water.  Click “Play” or use the scroll-bar to the left to see the forecast.
 
-${Plot.cell(contourKey, { x: "range", fill: "color" }).plot({ padding: 0 })}
+${Plot.cell(contourKey, { x: "range", fill: "color" }).plot()}
 
 Values are presented in powers of 10, such that 10-1 is 1:10 dilution or 10% raw sewage, 10-3 is 1:1000 dilution, 10-4 is 1:10,000 dilution, etc.
 
