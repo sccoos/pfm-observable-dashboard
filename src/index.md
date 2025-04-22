@@ -330,6 +330,7 @@ function legend({
     .attr("width", width)
     .attr("height", height)
     .attr("viewBox", [0, 0, width, height])
+    .style("color", "white")
     .style("overflow", "visible")
     .style("display", "block");
 
