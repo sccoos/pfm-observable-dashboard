@@ -141,7 +141,7 @@ ${legend({
 </div></div>
 <div class="card grid-colspan-1" style="min-height: 60vh">
 <p>
-Colored contour lines represent the fraction of raw wastewater forecasted to be at the ocean surface.  A value of 1 is pure sewage (black) and a value of zero (light yellow) is pure ocean water.  Click “Play” or use the scroll-bar to the left to see the forecast.
+Colored contour lines represent the fraction of raw wastewater forecasted to be at the ocean surface.  A value of 1 is pure sewage and a value of zero is pure ocean water.  Click “Play” or use the scroll-bar to the left to see the forecast.
 
 Values are presented in powers of 10, such that 10-1 is 1:10 dilution or 10% raw sewage, 10-3 is 1:1000 dilution, 10-4 is 1:10,000 dilution, etc.
 
