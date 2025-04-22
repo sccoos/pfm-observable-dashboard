@@ -293,7 +293,7 @@ function Scrubber(values, {
   }
 
   form.i.oninput = event => {
-    if ((event && event.isTrusted && running()) || (event && event && event.explicitOriginalTarget.classList[0] == "leaflet-interactive" && running())) stop();
+    if ((event && event.isTrusted && running())) stop();
     form.value = form.i.valueAsNumber;
     form.o.value = d3.timeFormat("%m/%d/%y %H:%M")(values[form.i.valueAsNumber]);
   };
