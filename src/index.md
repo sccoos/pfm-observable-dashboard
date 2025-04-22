@@ -16,7 +16,10 @@ site_values_csv = site_values_csv.map((d) => ({
   ...d,
   time: d3.timeParse("%Y-%m-%d %H:%M:%S%Z")(d.time)
 }));
-
+const contourKey = JSON.parse(dye_contour_json.all[0]).features.map(feature => ({
+  range: feature.properties.title,
+  color: feature.properties.fill
+}));
 
 async function loadContours() {
     let c0 = await FileAttachment("data/pfm_his_daily/computed_dye_contours_0.json").json()
@@ -50,6 +53,12 @@ function getFormattedDate(keyframe) {
     var iso = Date.parse(times[keyframe])
     var formatDate = d3.timeFormat("%A %B %d, %Y %X")
     return formatDate(iso)
+}
+
+function getCurrentValue(keyframe, selected_location) {
+    const d1_vals = site_values_csv.map((a) => parseFloat(a[selected_location]));
+    const current_val = d1_vals[keyframe]
+    return current_val
 }
 
 function getCurrentStatus(keyframe, selected_location) {
@@ -96,15 +105,18 @@ function onEachFeature(feature, layer) {
     height: height*0.7,
   marks: [
     Plot.axisX({ ticks: "8 hours" }),
+    Plot.areaY(site_values_csv, {x: "time", y1: risk_thresholds.low, y2: -6, fill: "green", opacity: 0.2}),
+    Plot.areaY(site_values_csv, {x: "time", y1: -1.5, y2: risk_thresholds.high, fill: "red", opacity: 0.2}),
+    Plot.areaY(site_values_csv, {x: "time", y1: risk_thresholds.low, y2: risk_thresholds.high, fill: "yellow", opacity: 0.2}),
     Plot.ruleX(
       site_values_csv,
       { x: [times[keyframe]], py: getCurrentSite(), stroke: getCurrentStatus(keyframe, getCurrentSite()) }
     ),
+    Plot.lineY(site_values_csv, { x: "time", y: getCurrentSite(), stroke: "white", strokeWidth: 2 }),
     Plot.tip(
       site_values_csv,
-      { x: [times[keyframe]], py: getCurrentSite(), stroke: getCurrentStatus(keyframe, getCurrentSite()) }
-    ),
-    Plot.lineY(site_values_csv, { x: "time", y: getCurrentSite() })
+      { x: [times[keyframe]], y: getCurrentValue(keyframe, getCurrentSite()), stroke: getCurrentStatus(keyframe, getCurrentSite()), anchor: "bottom" }
+    )
   ]
 }))}
 
