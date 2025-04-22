@@ -1,8 +1,7 @@
 ```js
 // Import deck.gl components for interactive map
 import L from "npm:leaflet";
-
-import * as d3 from "npm:d3-time-format";
+import * as d3 from "npm:d3";
 
 let shoreline_point_json = await FileAttachment("data/pfm_his_daily/computed_shoreline_points.json").json()
 let site_markers_json = await FileAttachment("data/pfm_his_daily/site_markers.json").json()
@@ -16,12 +15,10 @@ site_values_csv = site_values_csv.map((d) => ({
   ...d,
   time: d3.timeParse("%Y-%m-%d %H:%M:%S%Z")(d.time)
 }));
-const contourKey = JSON.parse(dye_contour_json.all[0]).features.map(feature => ({
+let contourKey = JSON.parse(dye_contour_json.all[0]).features.map(feature => ({
   range: feature.properties.title,
   color: feature.properties.fill
-}))
-contourKey.pop();
-
+}));
 async function loadContours() {
     let c0 = await FileAttachment("data/pfm_his_daily/computed_dye_contours_0.json").json()
     let c1 = await FileAttachment("data/pfm_his_daily/computed_dye_contours_1.json").json()
@@ -122,12 +119,33 @@ function onEachFeature(feature, layer) {
 }))}
 
 </div>
-<div class="card grid-colspan-2" style="padding: 0;"><div id="map-SD" style="height: 66vh; width: 100%;"></div></div>
-<div class="card grid-colspan-1">
+<div class="card grid-colspan-2" style="padding: 0;"><div id="map-SD" style="min-height: 100%; width: 100%; z-index: 1; position: relative;">
+<div style="display: flex; flex-direction: column; justify-content: center; position: absolute; bottom: 5%; left: 65%; z-index: 9999; background-color: rgba(255, 255, 255, 0.0); pointer-events: none;">
+<img style="padding: 1em" src = "https://s2020.s3.amazonaws.com/media/logo-scripps-ucsd-dark.png" width = "80%"></img>
+<img style="padding: 1em" src = "https://sccoos.org/wp-content/uploads/2022/05/SCCOOS_logo-01.png" width = "80%"></img>
+</div>
+<div style="display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: absolute;
+    top: 10%;
+    left:10%;
+    align-items: center; z-index: 9999; background-color: --theme-background; pointer-events: none;">
+${legend({
+  color: d3.scaleOrdinal(
+    contourKey.map((a) => a.range),
+    contourKey.map((a) => a.color)
+  ),
+  title: "Pathogens (log10 fraction)",
+  tickSize: 4,
+  height: 300
+})}
+
+</div>
+</div></div>
+<div class="card grid-colspan-1" style="min-height: 60vh">
 <p>
 Colored contour lines represent the fraction of raw wastewater forecasted to be at the ocean surface.  A value of 1 is pure sewage (black) and a value of zero (light yellow) is pure ocean water.  Click “Play” or use the scroll-bar to the left to see the forecast.
-
-${Plot.cell(contourKey, { x: "range", fill: "color" }).plot()}
 
 Values are presented in powers of 10, such that 10-1 is 1:10 dilution or 10% raw sewage, 10-3 is 1:1000 dilution, 10-4 is 1:10,000 dilution, etc.
 
@@ -141,14 +159,10 @@ Additional information is available at http://URL
 
 Funding provided by the State of California.
 </p>
-<div style = "text-align: center">
-<img src = "https://s2020.s3.amazonaws.com/media/logo-scripps-ucsd-dark.png" width = "45%"></img>
-<img src = "https://sccoos.org/wp-content/uploads/2022/05/SCCOOS_logo-01.png" width = "45%"></img>
-</div>
 </div>
 
 ```js
-var map = L.map('map-SD').setView([32.58, -117.2], 11);
+var map = L.map('map-SD').setView([32.58, -117.18], 11);
 var basetile = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
     maxZoom: 19,
     attribution: '© OpenStreetMap contributors'
@@ -285,7 +299,7 @@ function Scrubber(values, {
   form.i.oninput = event => {
     if ((event && event.isTrusted && running()) || (event && event && event.explicitOriginalTarget.classList[0] == "leaflet-interactive" && running())) stop();
     form.value = form.i.valueAsNumber;
-    form.o.value = format(values[form.i.valueAsNumber], form.i.valueAsNumber, values);
+    //form.o.value = format(values[form.i.valueAsNumber], form.i.valueAsNumber, values);
   };
   form.b.onclick = event => {
     if (running()) return stop();
@@ -299,5 +313,77 @@ function Scrubber(values, {
   else stop();
   Inputs.disposal(form).then(stop);
   return form;
+}
+
+function legend({
+  color,
+  title,
+  tickSize = 6,
+  width = 36 + tickSize,
+  height = 320,
+  marginTop = 20,
+  marginRight = 10 + tickSize,
+  marginBottom = 20,
+  marginLeft = 5,
+  ticks = height / 64,
+  tickFormat,
+  tickValues
+} = {}) {
+  const svg = d3
+    .create("svg")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("viewBox", [0, 0, width, height])
+    .style("overflow", "visible")
+    .style("display", "block");
+
+  let tickAdjust = (g) =>
+    g.selectAll(".tick line").attr("x1", marginLeft - width + marginRight);
+  let x;
+
+  x = d3
+    .scaleBand()
+    .domain(color.domain())
+    .rangeRound([height - marginBottom, marginTop]);
+
+  svg
+    .append("g")
+    .selectAll("rect")
+    .data(color.domain())
+    .join("rect")
+    .attr("y", x)
+    .attr("x", marginLeft)
+    .attr("height", Math.max(0, x.bandwidth() - 1))
+    .attr("width", width - marginLeft - marginRight)
+    .attr("fill", color);
+
+  tickAdjust = () => {};
+
+  svg
+    .append("g")
+    .attr("transform", `translate(${width - marginRight},0)`)
+    .call(
+      d3
+        .axisRight(x)
+        .ticks(ticks, typeof tickFormat === "string" ? tickFormat : undefined)
+        .tickFormat(typeof tickFormat === "function" ? tickFormat : undefined)
+        .tickSize(tickSize)
+        .tickValues(tickValues)
+    )
+    .call(tickAdjust)
+    .call((g) => g.select(".domain").remove())
+    .call((g) =>
+      g
+        .append("text")
+        .attr("x", marginLeft - width + marginRight)
+        .attr("y", 0)
+        .attr("fill", "currentColor")
+        .attr("text-anchor", "start")
+        .attr("font-weight", "bold")
+        .attr("class", "title")
+        .text(title)
+    );
+
+  return svg.node();
 }
 ```
