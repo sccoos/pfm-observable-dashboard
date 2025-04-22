@@ -4,14 +4,13 @@ import L from "npm:leaflet";
 
 import * as d3 from "npm:d3-time-format";
 
-let test_zip = await FileAttachment("data/pfm_his_daily.zip").zip()
 let shoreline_point_json = await FileAttachment("data/pfm_his_daily/computed_shoreline_points.json").json()
 let site_markers_json = await FileAttachment("data/pfm_his_daily/site_markers.json").json()
 let risk_thresholds = await FileAttachment("data/pfm_his_daily/risk_thresholds.json").json()
 let dye_contour_json = await loadContours()
 let site_values_csv = await FileAttachment("data/pfm_his_daily/site_timeseries.csv").csv({typed: true})
 const key_locations = site_values_csv.columns.slice(1)
-let selected_location = key_locations[0]
+let selected_location = ({selected: key_locations[0]})
 const times = site_values_csv.map((d) => d3.timeParse("%Y-%m-%d %H:%M:%S%Z")(d.time));
 site_values_csv = site_values_csv.map((d) => ({
   ...d,
@@ -43,10 +42,8 @@ const keyframe = view(
     })
 );
 
-function getCurrentValue(location){
-    const d1_vals = site_values_csv.map((a) => parseFloat(a[location]));
-    const current_val = Math.log10(d1_vals[keyframe])
-    return current_val
+function getCurrentSite(){
+    return selected_location.selected
 }
 
 function getFormattedDate(keyframe) {
@@ -74,12 +71,26 @@ function getCurrentStatus(keyframe, selected_location) {
     }
     return status
 }
+
+function siteClicked(e) {
+  // e = event
+  selected_location.selected = e.target.feature.properties.label
+  const form = document.getElementById("date-scrub");
+  form.i.dispatchEvent(new CustomEvent("input", {bubbles: true}))
+}
+
+function onEachFeature(feature, layer) {
+    //bind click
+    layer.on({
+        click: siteClicked
+    });
+}
 ```
-<div class="warning" label="Beta Release Notes:">This forecast is highly-experimental and is in limited beta release. The current forecast range is: mdy-mdy. Site last updated: mdy</div>
+<div class="warning" label="Beta Release Notes:">This forecast is highly-experimental and is in limited beta release: not for official use.<hr/>The current forecast range is: mdy-mdy. Site last updated: mdy</div>
 </div>
 
-<div class="card grid-colspan-2 grid-rowspan-1">
-<h1>${buildStatusCard(selected_location)} ${selected_location}</h1><h2>${getFormattedDate(keyframe)}</h2>
+<div id = "site-ts" class="card grid-colspan-2 grid-rowspan-1">
+<h1>${buildStatusCard(getCurrentSite())}</h1><h2>${getFormattedDate(keyframe)}</h2>
   ${resize((width, height) => Plot.plot({
     width: width,
     height: height*0.7,
@@ -87,13 +98,13 @@ function getCurrentStatus(keyframe, selected_location) {
     Plot.axisX({ ticks: "8 hours" }),
     Plot.ruleX(
       site_values_csv,
-      { x: [times[keyframe]], py: selected_location, stroke: getCurrentStatus(keyframe, selected_location) }
+      { x: [times[keyframe]], py: getCurrentSite(), stroke: getCurrentStatus(keyframe, getCurrentSite()) }
     ),
     Plot.tip(
       site_values_csv,
-      { x: [times[keyframe]], py: selected_location, stroke: getCurrentStatus(keyframe, selected_location) }
+      { x: [times[keyframe]], py: getCurrentSite(), stroke: getCurrentStatus(keyframe, getCurrentSite()) }
     ),
-    Plot.lineY(site_values_csv, { x: "time", y: selected_location })
+    Plot.lineY(site_values_csv, { x: "time", y: getCurrentSite() })
   ]
 }))}
 
@@ -101,15 +112,17 @@ function getCurrentStatus(keyframe, selected_location) {
 <div class="card grid-colspan-2" style="padding: 0;"><div id="map-SD" style="height: 66vh; width: 100%;"></div></div>
 <div class="card grid-colspan-1">
 <p>
-Contoured is fraction of raw wastewater at ocean surface.  A value of 1 is pure sewage and a value of zero is pure ocean water.  Click play or use the scroll-bar to the left to see the forecast.
+Colored contour lines represent the fraction of raw wastewater forecasted to be at the ocean surface.  A value of 1 is pure sewage (black) and a value of zero (light yellow) is pure ocean water.  Click “Play” or use the scroll-bar to the left to see the forecast.
 
-Values are presented in powers of 10, so that 10-1 is 1:10 dilution or 10% raw sewage, 10-3 is 1:1000 dilution, 10-4 is 1:10,000 dilution. etc.
+Values are presented in powers of 10, such that 10-1 is 1:10 dilution or 10% raw sewage, 10-3 is 1:1000 dilution, 10-4 is 1:10,000 dilution, etc.
 
-Shoreline color represent swimmer risk based on wastewater fraction:  red is high risk, yellow is moderate risk, and green is low risk.   
+Shoreline color represents swimmer risk based on wastewater fraction:  red is high risk, yellow is moderate risk, and green is low risk.   
 
-Four swimming locations, Playas Tijuana, IB pier, Silver Strand, and Hotel del Coronado, are also particularly highlighted.  Click on those locations to see more detail forecast 
+Four swimming locations south to north – Playas Tijuana, Imperial Beach Pier, Silver Strand, and Hotel del Coronado – are labeled with coordinates.  Click on those locations to see a more detailed forecast. 
 
-More details are available at http://URL
+Additional information is available at http://URL
+
+*Questions should be addressed to EMAIL
 
 Funding provided by the State of California.
 </p>
@@ -146,8 +159,9 @@ function renderJSONContours(keyframe, basetileID) {
 
     var siteJSON = new L.geoJSON(JSON.parse(site_markers_json), {
       pointToLayer: (feature, latlng) => {
-          return new L.circleMarker(latlng, {color: "white", weight: 1, fillColor: getCurrentStatus(keyframe, feature.properties.label), fillOpacity: 1}).addTo(map).bindTooltip(feature.properties.label,{permanent: true, direction: "right", offset: [10, -5]})
-      }
+          return new L.circleMarker(latlng, {color: "white", weight: 1, fillColor: getCurrentStatus(keyframe, feature.properties.label), fillOpacity: 1}).addTo(map).bindTooltip(feature.properties.label,{permanent: true, direction: "right", offset: [10, -5]});
+      },
+      onEachFeature: onEachFeature
     }).addTo(map);
 
     return curContour;
@@ -181,17 +195,17 @@ function buildStatusCard(location) {
     // Low Risk
     if (current_val < risk_low) {
         card = html`
-            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="20px" viewBox="0 0 500 500"><path fill="palegreen" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="20px" viewBox="0 0 500 500"><path fill="palegreen" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>${location}
         `;
     // Medium Risk
     } else if (current_val < risk_high) {
         card = html`
-            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="20px" viewBox="0 0 500 500"><path fill="gold" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="20px" viewBox="0 0 500 500"><path fill="gold" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg>${location}
         `;
     // High Risk
     } else {
         card = html`
-            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="20px" viewBox="0 0 500 500"><path fill="firebrick" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="20px" viewBox="0 0 500 500"><path fill="firebrick" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>${location}
         `;
     }
     return card;
@@ -210,7 +224,7 @@ function Scrubber(values, {
   alternate = false
 } = {}) {
   values = Array.from(values);
-  const form = html`<form style="font: 12px var(--sans-serif); font-variant-numeric: tabular-nums; justify-content: center; display: flex; height: 33px; align-items: center;">
+  const form = html`<form id="date-scrub" style="font: 12px var(--sans-serif); font-variant-numeric: tabular-nums; justify-content: center; display: flex; height: 33px; align-items: center;">
   <button name=b type=button style="margin-right: 0.4em; width: 5em;"></button>
   <label style="display: flex; align-items: center;">
     <input name=i type=range min=0 max=${values.length - 1} value=${initial} step=1">
@@ -252,12 +266,13 @@ function Scrubber(values, {
     form.i.valueAsNumber = (form.i.valueAsNumber + direction + values.length) % values.length;
     form.i.dispatchEvent(new CustomEvent("input", {bubbles: true}));
   }
+
   form.i.oninput = event => {
-    if (event && event.isTrusted && running()) stop();
+    if ((event && event.isTrusted && running()) || (event && event && event.explicitOriginalTarget.classList[0] == "leaflet-interactive" && running())) stop();
     form.value = form.i.valueAsNumber;
     form.o.value = format(values[form.i.valueAsNumber], form.i.valueAsNumber, values);
   };
-  form.b.onclick = () => {
+  form.b.onclick = event => {
     if (running()) return stop();
     direction = alternate && form.i.valueAsNumber === values.length - 1 ? -1 : 1;
     form.i.valueAsNumber = (form.i.valueAsNumber + direction) % values.length;
