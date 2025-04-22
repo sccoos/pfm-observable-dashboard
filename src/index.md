@@ -93,10 +93,10 @@ function onEachFeature(feature, layer) {
     });
 }
 ```
-<div class="warning" label="Beta Release Notes:">This forecast is highly-experimental and is in limited beta release: not for official use.<hr/>The current forecast range is: mdy-mdy. Site last updated: mdy</div>
+<div class="warning" label="Beta Release Notes:">This forecast is highly-experimental and is in limited beta release: not for official use. This forecast updates at 6:30am US/Pacific. Occasionally if forecasts fail, the forecast date is a day behind.<hr/>The current forecast range is: ${times[0]} through ${times[times.length-1]}.</div>
 </div>
 
-<div id = "site-ts" class="card grid-colspan-2 grid-rowspan-1">
+<div id = "site-ts" class="card grid-colspan-2 grid-rowspan-1" style="height: 100%; min-height: 200px;">
 <h1>${buildStatusCard(getCurrentSite())}</h1><h2>${getFormattedDate(keyframe)}</h2>
   ${resize((width, height) => Plot.plot({
     width: width,
@@ -115,7 +115,7 @@ function onEachFeature(feature, layer) {
 }))}
 
 </div>
-<div class="card grid-colspan-2" style="padding: 0;"><div id="map-SD" style="min-height: 100%; width: 100%; z-index: 1; position: relative;">
+<div class="card grid-colspan-2" style="padding: 0;"><div id="map-SD" style="height: 100%; min-height: 400px; width: 100%; z-index: 1; position: relative;">
 <div style="display: flex; flex-direction: column; justify-content: center; position: absolute; bottom: 5%; left: 65%; z-index: 9999; background-color: rgba(255, 255, 255, 0.0); pointer-events: none;">
 <img style="padding: 1em" src = "https://s2020.s3.amazonaws.com/media/logo-scripps-ucsd-dark.png" width = "80%"></img>
 <img style="padding: 1em" src = "https://sccoos.org/wp-content/uploads/2022/05/SCCOOS_logo-01.png" width = "80%"></img>
@@ -295,7 +295,7 @@ function Scrubber(values, {
   form.i.oninput = event => {
     if ((event && event.isTrusted && running()) || (event && event && event.explicitOriginalTarget.classList[0] == "leaflet-interactive" && running())) stop();
     form.value = form.i.valueAsNumber;
-    //form.o.value = format(values[form.i.valueAsNumber], form.i.valueAsNumber, values);
+    form.o.value = d3.timeFormat("%m/%d/%y %H:%M")(values[form.i.valueAsNumber]);
   };
   form.b.onclick = event => {
     if (running()) return stop();
