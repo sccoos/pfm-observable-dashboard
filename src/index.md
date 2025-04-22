@@ -112,7 +112,7 @@ function onEachFeature(feature, layer) {
       site_values_csv,
       { x: [times[keyframe]], py: getCurrentSite(), stroke: getCurrentStatus(keyframe, getCurrentSite()) }
     ),
-    Plot.lineY(site_values_csv, { x: "time", y: getCurrentSite(), stroke: "white", strokeWidth: 2 }),
+    Plot.lineY(site_values_csv, { x: "time", y: getCurrentSite(), strokeWidth: 2 }),
     Plot.tip(
       site_values_csv,
       { x: [times[keyframe]], y: getCurrentValue(keyframe, getCurrentSite()), stroke: getCurrentStatus(keyframe, getCurrentSite()), anchor: "bottom" }
