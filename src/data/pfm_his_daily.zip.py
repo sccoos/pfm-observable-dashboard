@@ -119,7 +119,6 @@ with zipfile.ZipFile(zip_buffer, "a") as zip_file:
 
  # Write JSON string to the zip file
 with zipfile.ZipFile(zip_buffer, "a") as zip_file:
-    console.log(risk_thresholds)
     json_string = json.dumps(risk_thresholds)
     zip_file.writestr("risk_thresholds.json", json_string, compress_type=zipfile.ZIP_DEFLATED)
 
