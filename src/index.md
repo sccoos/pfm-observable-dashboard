@@ -146,17 +146,15 @@ ${legend({
 <p>
 Colored contour lines represent the fraction of raw wastewater forecasted to be at the ocean surface.  A value of 1 is pure sewage and a value of zero is pure ocean water.  Click “Play” or use the scroll-bar to the left to see the forecast.
 
-Values are presented in powers of 10, such that 10-1 is 1:10 dilution or 10% raw sewage, 10-3 is 1:1000 dilution, 10-4 is 1:10,000 dilution, etc.
+Values are presented in powers of 10, such that 10<sup>-1</sup> is 1:10 dilution or 10% raw sewage, 10<sup>-3</sup> is 1:1000 dilution, 10<sup>-4</sup> is 1:10,000 dilution, etc.
 
 Shoreline color represents swimmer risk based on wastewater fraction:  red is high risk, yellow is moderate risk, and green is low risk.   
 
 Four swimming locations south to north – Playas Tijuana, Imperial Beach Pier, Silver Strand, and Hotel del Coronado – are labeled with coordinates.  Click on those locations to see a more detailed forecast. 
 
-Additional information is available at http://URL
+Questions should be addressed to ffeddersen@ucsd.edu.
 
-*Questions should be addressed to EMAIL
-
-Funding provided by the State of California.
+<span style="color: orange"><b>Funding provided by the State of California.</b></span>
 </p>
 </div>
 
