@@ -48,7 +48,7 @@ all_contours = []
 all_shoreline_points = []
 
 contour_lmin = -5.5
-contour_lmax = -1.5
+contour_lmax = -0.75
 contour_interval = 0.25
 color_map = {
     0: 'green',
