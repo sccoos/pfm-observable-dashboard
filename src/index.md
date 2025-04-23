@@ -132,22 +132,14 @@ function onEachFeature(feature, layer) {
 <img style="padding: 1em" src = "https://sccoos.org/wp-content/uploads/2022/05/SCCOOS_logo-01.png" width = "80%"></img>
 </div>
 <div style="display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     position: absolute;
-    top: 10%;
-    left:10%;
-    align-items: center; z-index: 9999; background-color: --theme-background; pointer-events: none;">
-${legend({
-  color: d3.scaleOrdinal(
-    contourKey.map((a) => a.range),
-    contourKey.map((a) => a.color)
-  ),
-  title: "Pathogens (log10 fraction)",
-  tickSize: 4,
-  height: 300
-})}
-
+    top: 5%;
+    left:5%;
+    height:80%;
+    align-items: center; z-index: 9999; pointer-events: none;">
+    <img style="padding: 1em" src = "https://sccoos.org/wp-content/uploads/2025/04/pfm_contour_legend.png" height = "80%"></img>
 </div>
 </div></div>
 <div class="card grid-colspan-1" style="min-height: 60vh">
