@@ -101,6 +101,9 @@ function onEachFeature(feature, layer) {
   ${resize((width, height) => Plot.plot({
     width: width,
     height: height*0.7,
+    x: {
+      type: 'time'
+    },
   marks: [
     Plot.axisX({ ticks: "8 hours" }),
     Plot.areaY(site_values_csv, {x: "time", y1: risk_thresholds.low, y2: -6, fill: "green", opacity: 0.2}),
