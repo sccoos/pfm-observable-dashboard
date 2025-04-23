@@ -34,6 +34,12 @@ async function loadContours() {
 <div class="grid grid-cols-3 grid-rows-2" style="grid-auto-rows: auto;">
 
   <div class="card grid-colspan-1 grid-rowspan-1"><h1>Pathogen Risk Forecast [beta]</h1>
+  <div class="warning" label="Beta Release Notes:">
+  This forecast is highly-experimental and is in limited beta release: not for official use. This forecast updates at 6:30am US/Pacific. Occasionally if forecasts fail, the forecast date is a day behind.
+  <hr/>
+  The current forecast range is:
+  ${times[0]} - ${times[times.length-1]}
+  </div>
   
 ```js
 const keyframe = view(
@@ -93,7 +99,6 @@ function onEachFeature(feature, layer) {
     });
 }
 ```
-<div class="warning" label="Beta Release Notes:">This forecast is highly-experimental and is in limited beta release: not for official use. This forecast updates at 6:30am US/Pacific. Occasionally if forecasts fail, the forecast date is a day behind.<hr/>The current forecast range is: ${times[0]} through ${times[times.length-1]}.</div>
 </div>
 
 <div id = "site-ts" class="card grid-colspan-2" style="min-height: 200px;">
@@ -103,6 +108,9 @@ function onEachFeature(feature, layer) {
     height: height*0.7,
     x: {
       type: 'time'
+    },
+    y: {
+      tickFormat: (n) => `10^${n}`
     },
   marks: [
     Plot.axisX({ ticks: "8 hours" }),
