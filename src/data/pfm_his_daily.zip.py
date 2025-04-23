@@ -56,8 +56,8 @@ color_map = {
     2: 'red'
 }
 risk_thresholds = {
-    'low': ds['thresh_holds'][:].values[0],
-    'high': ds['thresh_holds'][:].values[1]
+    'low': int(ds['thresh_holds'][:].values[0]),
+    'high': int(ds['thresh_holds'][:].values[1])
 }
 
 cmap = plt.get_cmap('magma') # Define the contour colormap
