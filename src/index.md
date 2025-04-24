@@ -110,7 +110,8 @@ function onEachFeature(feature, layer) {
       type: 'time'
     },
     y: {
-      tickFormat: (n) => `1:${10**(n*-1)}`
+      tickFormat: (n) => `1:${10**(n*-1)}`,
+      grid: true,
     },
   marks: [
     Plot.axisX({ ticks: "8 hours" }),
