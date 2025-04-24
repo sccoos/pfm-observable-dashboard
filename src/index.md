@@ -34,6 +34,7 @@ async function loadContours() {
 <div class="grid grid-cols-3 grid-rows-2" style="grid-auto-rows: auto;">
 
   <div class="card grid-colspan-1 grid-rowspan-1"><h1>Pathogen Risk Forecast [beta]</h1>
+
   <div class="warning" label="Beta Release Notes:">
   This forecast is highly-experimental and is in limited beta release: not for official use. This forecast updates at 6:30am US/Pacific. Occasionally if forecasts fail, the forecast date is a day behind.
   <hr/>
@@ -100,8 +101,7 @@ function onEachFeature(feature, layer) {
 }
 ```
 </div>
-
-<div id = "site-ts" class="card grid-colspan-2" style="min-height: 200px; padding-bottom:20px;">
+<div id = "site-ts" class="card grid-colspan-2 grid-rowspan-1" style="min-height: 200px; padding-bottom:20px; padding-left:30px;">
 <h1>${buildStatusCard(getCurrentSite())}</h1><h2>${getFormattedDate(keyframe)}</h2>
   ${resize((width, height) => Plot.plot({
     width: width,
@@ -110,7 +110,7 @@ function onEachFeature(feature, layer) {
       type: 'time'
     },
     y: {
-      tickFormat: (n) => `10^${n}`
+      tickFormat: (n) => `1:${10**(n*-1)}`
     },
   marks: [
     Plot.axisX({ ticks: "8 hours" }),
@@ -140,6 +140,7 @@ function onEachFeature(feature, layer) {
     height:80%;
     align-items: center; z-index: 9999; pointer-events: none;">
     <img style="padding: 1em" src = "https://sccoos.org/wp-content/uploads/2025/04/pfm_contour_legend.png" height = "80%"></img>
+
 </div>
 </div></div>
 <div class="card grid-colspan-1" style="min-height: 60vh">
