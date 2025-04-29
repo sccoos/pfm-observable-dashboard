@@ -6,7 +6,7 @@ import * as d3 from "npm:d3";
 let shoreline_point_json = await FileAttachment("data/pfm_his_daily/computed_shoreline_points.json").json()
 let site_markers_json = await FileAttachment("data/pfm_his_daily/site_markers.json").json()
 let risk_thresholds = await FileAttachment("data/pfm_his_daily/risk_thresholds.json").json()
-let model_extent = await FileAttachment("data/pfm_daily_his/LV4_model_extent.json").json()
+let model_extent = await FileAttachment("data/pfm_his_daily/LV4_model_extent.json").json()
 let dye_contour_json = await loadContours()
 let site_values_csv = await FileAttachment("data/pfm_his_daily/site_timeseries.csv").csv({typed: true})
 const key_locations = site_values_csv.columns.slice(1)
