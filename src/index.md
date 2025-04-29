@@ -112,7 +112,7 @@ function onEachFeature(feature, layer) {
       type: 'time'
     },
     y: {
-      tickFormat: (n) => `${10**(n)}`,
+      tickFormat: (n) => `${+(10**(n) * 100).toFixed(6)}%`,
       grid: true,
     },
   marks: [
