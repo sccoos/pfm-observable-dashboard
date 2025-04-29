@@ -5,7 +5,8 @@ import geojsoncontour
 import json
 import geopandas as gpd
 import pandas as pd
-from shapely.geometry import Point
+from shapely.geometry import Point, Polygon
+from shapely import to_geojson
 import matplotlib.pyplot as plt
 import numpy as np
 import zipfile
@@ -99,6 +100,34 @@ site_markers_df = pd.DataFrame(site_markers)
 site_markers_geometries = [Point(xy) for xy in zip(ds['sites_lon'].values.tolist(), ds['sites_lat'].values.tolist())]
 site_markers = gpd.GeoDataFrame(site_markers_df, geometry=site_markers_geometries).to_json()
 
+# Create model extent polygon
+# Extract latitude and longitude arrays
+latitudes = ds['map_lat'].values
+longitudes = ds['map_lon'].values
+
+# Get the bounding box vertices
+left_bottom_y = latitudes[0,0]
+right_bottom_y = latitudes[0,-1]
+left_top_y = latitudes[-1,0]
+right_top_y = latitudes[-1,-1]
+
+left_bottom_x = longitudes[0,0]
+right_bottom_x = longitudes[0,-1]
+left_top_x = longitudes[-1,0]
+right_top_x = longitudes[-1,-1]
+
+# Define the bounding box vertices in clockwise order
+bounding_vertices = [
+    (left_bottom_x, left_bottom_y),  # Bottom-left
+    (left_top_x, left_top_y),  # Top-left
+    (right_top_x, right_top_y), # Top-right
+    (right_bottom_x, right_bottom_y),  # Bottom-right
+    (left_bottom_x, left_bottom_y)   # Close the polygon
+]
+
+# Create the Polygon
+bounding_polygon = Polygon(bounding_vertices)
+
 ### Write zip archive of generated web files
 # Create a buffer
 zip_buffer = io.BytesIO()
@@ -131,6 +160,11 @@ with zipfile.ZipFile(zip_buffer, mode = "a") as zip_file:
 with zipfile.ZipFile(zip_buffer, "a") as zip_file:
     json_string = json.dumps(site_markers)
     zip_file.writestr("site_markers.json", json_string, compress_type=zipfile.ZIP_DEFLATED)
+
+ # Write JSON string to the zip file
+with zipfile.ZipFile(zip_buffer, "a") as zip_file:
+    json_string = json.dumps(to_geojson(bounding_polygon))
+    zip_file.writestr("LV4_model_extent.json", json_string, compress_type=zipfile.ZIP_DEFLATED)
 
 # Write the zip file to standard output
 # with open('pfm_daily_his.zip', 'wb') as f:
