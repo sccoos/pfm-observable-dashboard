@@ -24,8 +24,9 @@ async function loadContours() {
     let c1 = await FileAttachment("data/pfm_his_daily/computed_dye_contours_1.json").json()
     let c2 = await FileAttachment("data/pfm_his_daily/computed_dye_contours_2.json").json()
     let c3 = await FileAttachment("data/pfm_his_daily/computed_dye_contours_3.json").json()
+    let c4 = await FileAttachment("data/pfm_his_daily/computed_dye_contours_4.json").json()
     return {
-        all: [...c0, ...c1, ...c2, ...c3]
+        all: [...c0, ...c1, ...c2, ...c3, ...c4]
     }
 }
 

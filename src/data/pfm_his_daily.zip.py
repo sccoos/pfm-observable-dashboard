@@ -105,7 +105,7 @@ zip_buffer = io.BytesIO()
 
 # Write JSON string to the zip file
 # contour needs to get chunked into 4 files
-split_array = np.array_split(all_contours, 4)
+split_array = np.array_split(all_contours, 5)
 for i, subarray in enumerate(split_array):
     with zipfile.ZipFile(zip_buffer, "a") as zip_file:
         json_string = json.dumps(subarray.tolist())
