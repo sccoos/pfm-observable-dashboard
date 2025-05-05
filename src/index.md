@@ -38,7 +38,7 @@ async function loadContours() {
   <div class="card grid-colspan-1 grid-rowspan-1"><h1>Pathogen Risk Forecast [beta]</h1>
 
   <div class="warning" label="Beta Release Notes:">
-  This forecast is highly-experimental and is in limited beta release: not for official use. This forecast updates at 6:30am US/Pacific. Occasionally if forecasts fail, the forecast date is a day behind.
+  This forecast is highly-experimental and is in limited beta release: not for official use. This forecast updates at 6:30am US/Pacific. Forecasts are typically 5 days long, but may be as short as 3 days. Occasionally if forecasts fail, the forecast date is a day behind.
   <hr/>
   The current forecast range is:
   ${times[0]} - ${times[times.length-1]}
@@ -150,11 +150,13 @@ function onEachFeature(feature, layer) {
 <p>
 Colored contour lines represent the fraction of raw wastewater forecasted to be at the ocean surface.  A value of 1 is pure sewage and a value of zero is pure ocean water.  Click “Play” or use the scroll-bar to the left to see the forecast.
 
-Values are presented in powers of 10, such that 10<sup>-1</sup> is 1:10 dilution or 10% raw sewage, 10<sup>-3</sup> is 1:1000 dilution, 10<sup>-4</sup> is 1:10,000 dilution, etc.
+Values are presented in powers of 10, such that 10<sup>-1</sup> is 1:10 dilution or 10% raw sewage, 10<sup>-3</sup> is 1:1000 dilution or 0.1% raw sewage, 10<sup>-4</sup> is 1:10,000 dilution or 0.01% raw sewage.
 
-Shoreline color represents swimmer risk based on wastewater fraction:  red is high risk, yellow is moderate risk, and green is low risk.   
+The dashed white rectangle box represents the region where the model is providing a forecast.  Outside of this box, no forecast is made.
 
-Four swimming locations south to north – Playas Tijuana, Imperial Beach Pier, Silver Strand, and Hotel del Coronado – are labeled with coordinates.  Click on those locations to see a more detailed forecast. 
+Shoreline color represents swimmer risk based on wastewater fraction: red is high risk (>0.1% wastewater), yellow is moderate risk, and green is low risk (<0.001% wastewater).   These values are based on swimmer illness risk probability from <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021GH000490" target="_blank">Feddersen et al. (2021)</a>.
+
+Four swimming locations south to north – Playas Tijuana, Imperial Beach Pier, Silver Strand, and Hotel del Coronado – are labeled with large circle.  Click on the circle to see a more detailed forecast (shown above) at these locations.  In the graph above, raw wastewater is given in percentages with the high, moderate, and low risk regions indicated with the colored background.
 
 Questions should be addressed to ffeddersen@ucsd.edu.
 
