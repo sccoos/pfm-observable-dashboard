@@ -104,7 +104,7 @@ function onEachFeature(feature, layer) {
 ```
 </div>
 <div id = "site-ts" class="card grid-colspan-2 grid-rowspan-1" style="min-height: 200px; padding-bottom:20px; padding-left:30px;">
-<h1>${buildStatusCard(getCurrentSite())}</h1><h2>${getFormattedDate(keyframe)}</h2>
+<h1 width = "100%">${buildStatusCard(getCurrentSite())}</h1><h2>${getFormattedDate(keyframe)}</h2>
   ${resize((width, height) => Plot.plot({
     width: width,
     height: height*0.7,
@@ -193,7 +193,7 @@ function renderJSONContours(keyframe, basetileID) {
 
     var siteJSON = new L.geoJSON(JSON.parse(site_markers_json), {
       pointToLayer: (feature, latlng) => {
-          return new L.circleMarker(latlng, {color: "white", weight: 1, fillColor: getCurrentStatus(keyframe, feature.properties.label), fillOpacity: 1}).addTo(map).bindTooltip(feature.properties.label,{permanent: true, direction: "right", offset: [10, -5]});
+          return new L.circleMarker(latlng, {color: "white", weight: 1, fillColor: getCurrentStatus(keyframe, feature.properties.label), fillOpacity: 1}).addTo(map).bindTooltip(feature.properties.label,{permanent: true, direction: "right", offset: [10, -5], });
       },
       onEachFeature: onEachFeature
     }).addTo(map);
