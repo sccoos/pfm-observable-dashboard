@@ -156,7 +156,7 @@ The dashed white rectangle box represents the region where the model is providin
 
 Shoreline color represents swimmer risk based on wastewater fraction: red is high risk (>0.1% wastewater), yellow is moderate risk, and green is low risk (<0.001% wastewater).   These values are based on swimmer illness risk probability from <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021GH000490" target="_blank">Feddersen et al. (2021)</a>.
 
-Four swimming locations south to north – Playas Tijuana, Imperial Beach Pier, Silver Strand, and Hotel del Coronado – are labeled with large circle.  Click on the circle to see a more detailed forecast (shown above) at these locations.  In the graph above, raw wastewater is given in percentages with the high, moderate, and low risk regions indicated with the colored background.
+Four swimming locations south to north – Playas de Tijuana, Imperial Beach Pier, Silver Strand, and Coronado Avenida del Sol – are labeled with large circle.  Click on the circle to see a more detailed forecast (shown above) at these locations.  In the graph above, raw wastewater is given in percentages with the high, moderate, and low risk regions indicated with the colored background.
 
 Questions should be addressed to ffeddersen@ucsd.edu.
 
