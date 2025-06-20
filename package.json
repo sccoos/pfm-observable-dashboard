@@ -228,6 +228,9 @@
   "devDependencies": {
     "rimraf": "^5.0.5"
   },
+  "optionalDependencies":  {  
+    "@rollup/rollup-linux-arm64-gnu": "^4.0.0"  
+},
   "engines": {
     "node": ">=18"
   },
