@@ -38,13 +38,10 @@ async function loadContours() {
   <div class="card grid-colspan-1 grid-rowspan-1"><h1>Pathogen Risk Forecast [beta]</h1>
 
   <div class="warning" label="Beta Release Notes:">
-    This forecast updates at 6:30AM US/Pacific. Forecasts are typically 5 days long, but may be as short as 3 days. 
-    <hr/>
+    This forecast updates at 6:30AM US/Pacific. Forecasts are typically 5 days long, but may be as short as 3 days. <hr/>
     The current forecast range is:
-  ${times[0]} - ${times[times.length-1]}
-    <hr/>
-   Click "Play" below to view the animated forecast of percentage sewage in the ocean.  You can also use the scroll bar to move back and forth in time.  Click on the location circle on the map to see the detailed forecast at that location to the right.
-  <hr/>  
+  ${times[0]} - ${times[times.length-1]}    <hr/>
+   Click "Play" below to view the animated forecast of percentage sewage in the ocean.  You can also use the scroll bar to move back and forth in time.  Click on the location circle on the map to see the detailed forecast at that location to the right.  <hr/>  
    This forecast is highly-experimental and is in limited beta release: not for official use. Occasionally if forecasts fail, the forecast date is a day behind.
   </div>
   
