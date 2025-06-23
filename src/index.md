@@ -152,7 +152,7 @@ function onEachFeature(feature, layer) {
 </div></div>
 <div class="card grid-colspan-1" style="min-height: 60vh">
 <p>
-Colored contour lines represent the fraction of raw wastewater forecasted to be at the ocean surface.  A value of 1 is pure sewage and a value of zero is pure ocean water.  Click “Play” or use the scroll-bar to the left to see the forecast.
+Colored contour lines represent the percentage of sewage forecasted to be at the ocean surface.  A value of 100% is pure sewage and a value of zero is pure ocean water.  
 
 Values are presented in powers of 10, such that 10<sup>-1</sup> is 1:10 dilution or 10% raw sewage, 10<sup>-3</sup> is 1:1000 dilution or 0.1% raw sewage, 10<sup>-4</sup> is 1:10,000 dilution or 0.01% raw sewage.
 
@@ -160,7 +160,14 @@ The dashed white rectangle box represents the region where the model is providin
 
 Shoreline color represents swimmer risk based on wastewater fraction: red is high risk (>0.1% wastewater), yellow is moderate risk, and green is low risk (<0.001% wastewater).   These values are based on swimmer illness risk probability from <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021GH000490" target="_blank">Feddersen et al. (2021)</a>.
 
-Four swimming locations south to north – Playas de Tijuana, Imperial Beach Pier, Silver Strand, and Coronado Avenida del Sol – are labeled with large circle.  Click on the circle to see a more detailed forecast (shown above) at these locations.  In the graph above, raw wastewater is given in percentages with the high, moderate, and low risk regions indicated with the colored background.
+Four swimming locations from south to north – Playas de Tijuana, Imperial Beach Pier, Silver Strand, and Coronado, Avenida Lunar – are labeled with large circle.  Click on the circle to see a more detailed forecast (shown above) at these locations.  
+
+In the graph above, raw wastewater is given in percentages with the high, moderate, and low swimmer risk indicated with the colored background.
+<ul>
+  <li> Red indicates high risk representing greater than 0.1% sewage</li>
+  <li> Yellow indicates moderate risk at values between 0.001% and 0.1% sewage</li>
+  <li> Green indicates low risk at values less thatn 0.001% sewage</li>
+</ul>
 
 Questions should be addressed to ffeddersen@ucsd.edu.
 
