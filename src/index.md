@@ -156,7 +156,7 @@ Shoreline color indicate swimmer risk based on sewage percentage with
 <ul>
   <li> Red indicates high risk representing greater than 0.1% sewage</li>
   <li> Yellow indicates moderate risk at values between 0.001% and 0.1% sewage</li>
-  <li> Green indicates low risk at values less thatn 0.001% sewage</li>
+  <li> Green indicates low risk at values less than 0.001% sewage</li>
 </ul>
 
 Four swimming locations from south to north – Playas de Tijuana, Imperial Beach Pier, Silver Strand, and Coronado, Avenida Lunar – are labeled with large circle.  Click on the circle to see a more detailed forecast (shown above) at these locations.  In the graph above, sewage concentration is given in percentages with the high, moderate, and low swimmer risk indicated with the colored background.
@@ -167,6 +167,7 @@ The county’s official beach water quality conditions are reported by the Count
 of San Diego Beach & Bay Water Quality Program. Current advisories, warnings,
 and closures are updated daily and can be found at <a href="https://www.sdbeachinfo.com/">County of San Diego Beach Water Quality</a>.
 
+This ocean forecast model is analogous to weather forecast models.  This model uses NOAA forecasts of Tijuana River flow and estimates of flow from the San Antonio de los Buenos outflow.  
 Questions regarding the Pathogen Forecast Model should be addressed to ffeddersen@ucsd.edu.
 
 <span style="color: orange"><b>Funding provided by the State of California.</b></span>
