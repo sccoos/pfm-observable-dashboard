@@ -104,7 +104,7 @@ function onEachFeature(feature, layer) {
 ```
 </div>
 <div id = "site-ts" class="card grid-colspan-2 grid-rowspan-1" style="min-height: 200px; padding-bottom:20px; padding-left:30px;">
-<h1 width = "100%">${buildStatusCard(getCurrentSite())}</h1><h2>${getFormattedDate(keyframe)}</h2>
+<h1 width = "100%">${buildStatusCard(getCurrentSite())} : Sewage percentage at shoreline</h1><h2>${getFormattedDate(keyframe)}</h2>
   ${resize((width, height) => Plot.plot({
     width: width,
     height: height*0.7,
@@ -148,11 +148,11 @@ function onEachFeature(feature, layer) {
 </div></div>
 <div class="card grid-colspan-1" style="min-height: 60vh">
 <p>
-Forecasts are typically 5 days long, but may be as short as 3 days.  Occasionally if forecasts fail, the forecast date is a day behind. The dashed white rectangle box represents the region where the model is providing a forecast.  Outside of this box, no forecast is made.
+Here, forecasts of sewage at the ocean surface are provided for the San Diego/Tijuana border region.  Forecasts are typically 5 days long, but may be as short as 3 days.  Occasionally if forecasts fail, the forecast date is a day behind. The dashed white rectangle box represents the region where the model is providing a forecast.  Outside of this box, no forecast is made.
   
-Colored contour lines represent the forecast of percentage of sewage at the ocean surface.  A value of 100% is pure sewage and a value of zero is pure ocean water.  Contours go from a high of 10% sewage to a low of 0.0005% sewage.  
+Colored contour lines represent the percentage of sewage at the ocean surface.  A value of 100% is pure sewage and a value of zero is pure ocean water.  Contours go from a high of 10% sewage to a low of 0.0005% sewage.  
 
-Shoreline color indicate swimmer risk based on sewage percentage with
+The color at the shoreline indicates swimmer illness risk based on sewage percentage with
 <ul>
   <li> Red indicates high risk representing greater than 0.1% sewage</li>
   <li> Yellow indicates moderate risk at values between 0.001% and 0.1% sewage</li>
