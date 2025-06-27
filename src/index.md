@@ -167,8 +167,7 @@ The county’s official beach water quality conditions are reported by the Count
 of San Diego Beach & Bay Water Quality Program. Current advisories, warnings,
 and closures are updated daily and can be found at <a href="https://www.sdbeachinfo.com/">County of San Diego Beach Water Quality</a>.
 
-This ocean forecast model is analogous to weather forecast models.  This model uses NOAA forecasts of Tijuana River flow and estimates of flow from the San Antonio de los Buenos outflow.  
-Questions regarding the Pathogen Forecast Model should be addressed to ffeddersen@ucsd.edu.
+This ocean forecast model is analogous to weather forecast models.  This model uses NOAA forecasts of Tijuana River flow and estimates of flow from the San Antonio de los Buenos outflow.  Questions regarding the Pathogen Forecast Model should be addressed to ffeddersen@ucsd.edu.
 
 <span style="color: orange"><b>Funding provided by the State of California.</b></span>
 </p>
