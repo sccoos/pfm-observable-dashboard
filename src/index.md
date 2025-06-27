@@ -41,8 +41,7 @@ async function loadContours() {
     This forecast updates at 6:30AM US/Pacific. The current forecast range is:
   ${times[0]} - ${times[times.length-1]}    
       <hr/>
-   Click "Play" below to view the animated forecast of percentage sewage in the ocean.  You can also use the scroll bar to move back and forth in time.  Click on the location circle on the map to see the detailed forecast at that location to the right.  <hr/>  
-   This forecast is highly-experimental and is in limited beta release: not for official use. 
+   Click "Play" below to view the animated forecast of percentage sewage in the ocean.  You can also use the scroll bar to move back and forth in time.  Click on the location circle on the map to see the detailed forecast at that location to the right.  Note, this forecast is highly-experimental and is in limited beta release: not for official use. 
   </div>
   
 ```js
@@ -149,23 +148,21 @@ function onEachFeature(feature, layer) {
 </div></div>
 <div class="card grid-colspan-1" style="min-height: 60vh">
 <p>
-Forecasts are typically 5 days long, but may be as short as 3 days.  Occasionally if forecasts fail, the forecast date is a day behind.
-  Colored contour lines represent the percentage of sewage forecasted to be at the ocean surface.  A value of 100% is pure sewage and a value of zero is pure ocean water.  
+Forecasts are typically 5 days long, but may be as short as 3 days.  Occasionally if forecasts fail, the forecast date is a day behind. The dashed white rectangle box represents the region where the model is providing a forecast.  Outside of this box, no forecast is made.
+  
+Colored contour lines represent the forecast of percentage of sewage at the ocean surface.  A value of 100% is pure sewage and a value of zero is pure ocean water.  Contours go from a high of 10% ot a low of 0.005% of sewage.  
 
-Values are presented in powers of 10, such that 10<sup>-1</sup> is 1:10 dilution or 10% raw sewage, 10<sup>-3</sup> is 1:1000 dilution or 0.1% raw sewage, 10<sup>-4</sup> is 1:10,000 dilution or 0.01% raw sewage.
-
-The dashed white rectangle box represents the region where the model is providing a forecast.  Outside of this box, no forecast is made.
-
-Shoreline color represents swimmer risk based on wastewater fraction: red is high risk (>0.1% wastewater), yellow is moderate risk, and green is low risk (<0.001% wastewater).   These values are based on swimmer illness risk probability from <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021GH000490" target="_blank">Feddersen et al. (2021)</a>.
-
-Four swimming locations from south to north – Playas de Tijuana, Imperial Beach Pier, Silver Strand, and Coronado, Avenida Lunar – are labeled with large circle.  Click on the circle to see a more detailed forecast (shown above) at these locations.  
-
-In the graph above, raw wastewater is given in percentages with the high, moderate, and low swimmer risk indicated with the colored background.
+Shoreline color indicate swimmer risk based on sewage percentage with
 <ul>
   <li> Red indicates high risk representing greater than 0.1% sewage</li>
   <li> Yellow indicates moderate risk at values between 0.001% and 0.1% sewage</li>
   <li> Green indicates low risk at values less thatn 0.001% sewage</li>
 </ul>
+
+
+Four swimming locations from south to north – Playas de Tijuana, Imperial Beach Pier, Silver Strand, and Coronado, Avenida Lunar – are labeled with large circle.  Click on the circle to see a more detailed forecast (shown above) at these locations.  In the graph above, sewage concentration is given in percentages with the high, moderate, and low swimmer risk indicated with the colored background.
+
+Swimmer illness risk is based upon <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021GH000490" target="_blank">Feddersen et al. (2021)</a>.  A value of 0.1% sewage corresponds to a 10% risk of GI illness and a value of 0.001% sewage corresponds to a 1% risk of swimmer illness.
 
 Questions should be addressed to ffeddersen@ucsd.edu.
 
