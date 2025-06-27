@@ -38,11 +38,11 @@ async function loadContours() {
   <div class="card grid-colspan-1 grid-rowspan-1"><h1>Pathogen Risk Forecast [beta]</h1>
 
   <div class="warning" label="Beta Release Notes:">
-    This forecast updates at 6:30AM US/Pacific. Forecasts are typically 5 days long, but may be as short as 3 days. <hr/>
-    The current forecast range is:
-  ${times[0]} - ${times[times.length-1]}    <hr/>
+    This forecast updates at 6:30AM US/Pacific. The current forecast range is:
+  ${times[0]} - ${times[times.length-1]}    
+      <hr/>
    Click "Play" below to view the animated forecast of percentage sewage in the ocean.  You can also use the scroll bar to move back and forth in time.  Click on the location circle on the map to see the detailed forecast at that location to the right.  <hr/>  
-   This forecast is highly-experimental and is in limited beta release: not for official use. Occasionally if forecasts fail, the forecast date is a day behind.
+   This forecast is highly-experimental and is in limited beta release: not for official use. 
   </div>
   
 ```js
@@ -149,7 +149,8 @@ function onEachFeature(feature, layer) {
 </div></div>
 <div class="card grid-colspan-1" style="min-height: 60vh">
 <p>
-Colored contour lines represent the percentage of sewage forecasted to be at the ocean surface.  A value of 100% is pure sewage and a value of zero is pure ocean water.  
+Forecasts are typically 5 days long, but may be as short as 3 days.  Occasionally if forecasts fail, the forecast date is a day behind.
+  Colored contour lines represent the percentage of sewage forecasted to be at the ocean surface.  A value of 100% is pure sewage and a value of zero is pure ocean water.  
 
 Values are presented in powers of 10, such that 10<sup>-1</sup> is 1:10 dilution or 10% raw sewage, 10<sup>-3</sup> is 1:1000 dilution or 0.1% raw sewage, 10<sup>-4</sup> is 1:10,000 dilution or 0.01% raw sewage.
 
