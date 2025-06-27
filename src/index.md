@@ -142,7 +142,7 @@ function onEachFeature(feature, layer) {
     left:5%;
     height:80%;
     align-items: center; z-index: 9999; pointer-events: none;">
-    <img style="padding: 1em" src = "https://sccoos.org/wp-content/uploads/2025/04/pfm_contour_legend.png" height = "80%"></img>
+    <img style="padding: 1em" src = "https://falk.ucsd.edu/PFM_Forecast/colorbar_pcent_cropped.png" height = "80%"></img>
 
 </div>
 </div></div>
@@ -150,7 +150,7 @@ function onEachFeature(feature, layer) {
 <p>
 Forecasts are typically 5 days long, but may be as short as 3 days.  Occasionally if forecasts fail, the forecast date is a day behind. The dashed white rectangle box represents the region where the model is providing a forecast.  Outside of this box, no forecast is made.
   
-Colored contour lines represent the forecast of percentage of sewage at the ocean surface.  A value of 100% is pure sewage and a value of zero is pure ocean water.  Contours go from a high of 10% ot a low of 0.005% of sewage.  
+Colored contour lines represent the forecast of percentage of sewage at the ocean surface.  A value of 100% is pure sewage and a value of zero is pure ocean water.  Contours go from a high of 10% sewage to a low of 0.0005% sewage.  
 
 Shoreline color indicate swimmer risk based on sewage percentage with
 <ul>
@@ -159,12 +159,15 @@ Shoreline color indicate swimmer risk based on sewage percentage with
   <li> Green indicates low risk at values less thatn 0.001% sewage</li>
 </ul>
 
-
 Four swimming locations from south to north – Playas de Tijuana, Imperial Beach Pier, Silver Strand, and Coronado, Avenida Lunar – are labeled with large circle.  Click on the circle to see a more detailed forecast (shown above) at these locations.  In the graph above, sewage concentration is given in percentages with the high, moderate, and low swimmer risk indicated with the colored background.
 
 Swimmer illness risk is based upon <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021GH000490" target="_blank">Feddersen et al. (2021)</a>.  A value of 0.1% sewage corresponds to a 10% risk of GI illness and a value of 0.001% sewage corresponds to a 1% risk of swimmer illness.
 
-Questions should be addressed to ffeddersen@ucsd.edu.
+The county’s official beach water quality conditions are reported by the County
+of San Diego Beach & Bay Water Quality Program. Current advisories, warnings,
+and closures are updated daily and can be found at <a href="https://www.sdbeachinfo.com/">County of San Diego Beach Water Quality</a>.
+
+Questions regarding the Pathogen Forecast Model should be addressed to ffeddersen@ucsd.edu.
 
 <span style="color: orange"><b>Funding provided by the State of California.</b></span>
 </p>
