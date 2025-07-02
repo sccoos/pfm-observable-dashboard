@@ -41,7 +41,7 @@ async function loadContours() {
     This forecast updates at 6:30AM US/Pacific. The current forecast range is:
   ${times[0]} - ${times[times.length-1]}    
       <hr/>
-   Click "Play" below to view the animated forecast of percentage sewage in the ocean.  You can also use the scroll bar to move back and forth in time.  Click on the location circle on the map to see the detailed forecast at that location to the right.  Note, this forecast is highly-experimental and is in limited beta release: not for official use. 
+   Click "Play" below to view the animated forecast of percentage sewage in the ocean.  You can also use the scroll bar to move back and forth in time.  Click on the location circle on the map to see the detailed forecast at that location to the right.  
   </div>
   
 ```js
@@ -167,7 +167,7 @@ The county’s official beach water quality conditions are reported by the Count
 of San Diego Beach & Bay Water Quality Program. Current advisories, warnings,
 and closures are updated daily and can be found at <a href="https://www.sdbeachinfo.com/">County of San Diego Beach Water Quality</a>.
 
-This ocean forecast model is analogous to weather forecast models.  This model uses NOAA forecasts of Tijuana River flow and estimates of flow from the San Antonio de los Buenos outflow.  Questions regarding the Pathogen Forecast Model should be addressed to ffeddersen@ucsd.edu.
+This ocean forecast model is analogous to weather forecast models.  This model uses NOAA forecasts of Tijuana River flow and estimates of flow from the San Antonio de los Buenos outflow.  Questions regarding the Pathogen Forecast Model should be addressed to ffeddersen@ucsd.edu.  This forecast is experimental : Not for official use. 
 
 <span style="color: orange"><b>Funding provided by the State of California.</b></span>
 </p>
