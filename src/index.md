@@ -35,7 +35,7 @@ async function loadContours() {
 
 <div class="grid grid-cols-3 grid-rows-2" style="grid-auto-rows: auto;">
 
-  <div class="card grid-colspan-1 grid-rowspan-1"><h1>Pathogen Risk Forecast [beta]</h1>
+  <div class="card grid-colspan-1 grid-rowspan-1"><h1>Pathogen Forecast Model [beta]</h1>
 
   <div class="warning" label="Beta Release Notes:">
     This forecast updates at 6:30AM US/Pacific. The current forecast range is:
@@ -152,7 +152,7 @@ Here, forecasts of sewage at the ocean surface are provided for the San Diego/Ti
   
 Colored contour lines represent the percentage of sewage at the ocean surface.  A value of 100% is pure sewage and a value of zero is pure ocean water.  Contours go from a high of 10% sewage to a low of 0.0005% sewage.  
 
-The color at the shoreline indicates swimmer illness risk based on sewage percentage with
+The color at the shoreline indicates swimmer Norovirus illness risk based on sewage percentage with
 <ul>
   <li> Red indicates high risk representing greater than 0.1% sewage</li>
   <li> Yellow indicates moderate risk at values between 0.001% and 0.1% sewage</li>
@@ -167,7 +167,7 @@ The county’s official beach water quality conditions are reported by the Count
 of San Diego Beach & Bay Water Quality Program. Current advisories, warnings,
 and closures are updated daily and can be found at <a href="https://www.sdbeachinfo.com/">County of San Diego Beach Water Quality</a>.
 
-This ocean forecast model is analogous to weather forecast models.  This model uses NOAA forecasts of Tijuana River flow and estimates of flow from the San Antonio de los Buenos outflow.  Questions regarding the Pathogen Forecast Model should be addressed to ffeddersen@ucsd.edu.  This forecast is experimental : Not for official use. 
+This ocean forecast model is analogous to weather forecast models.  This model uses NOAA forecasts of Tijuana River flow and estimates San Antonio de los Buenos outflow at Punta Bandera MX.  Questions regarding the Pathogen Forecast Model should be addressed to ffeddersen@ucsd.edu.  This forecast is experimental : Not for official use. 
 
 <span style="color: orange"><b>Funding provided by the State of California.</b></span>
 </p>
