@@ -32,14 +32,14 @@ async function loadContours() {
 }
 
 ```
-
+<link rel="stylesheet" href="index.css">
 <div class="grid grid-cols-3 grid-rows-2" style="grid-auto-rows: auto;">
 
   <div class="card grid-colspan-1 grid-rowspan-1"><h1>Pathogen Forecast Model [beta]</h1>
 
   <div class="warning" label="Beta Release Notes:">
-    This forecast updates at 6:30AM US/Pacific. The current forecast range is:
-  ${times[0]} - ${times[times.length-1]}    
+    This forecast updates at 6:30AM US/Pacific. The current forecast range is
+  ${getFormattedDate(times[0])} - ${getFormattedDate(times[times.length-1])}    
       <hr/>
    Click "Play" below to view the animated forecast of percentage sewage in the ocean.  You can also use the scroll bar to move back and forth in time.  Click on the location circle on the map to see the detailed forecast at that location to the right.  
   </div>
@@ -56,9 +56,9 @@ function getCurrentSite(){
     return selected_location.selected
 }
 
-function getFormattedDate(keyframe) {
-    var iso = Date.parse(times[keyframe])
-    var formatDate = d3.timeFormat("%A %B %d, %Y %X")
+function getFormattedDate(time) {
+    var iso = Date.parse(time)
+    var formatDate = d3.timeFormat("%A %B %d, %Y %X") //%H:%M%p
     return formatDate(iso)
 }
 
@@ -88,12 +88,28 @@ function getCurrentStatus(keyframe, selected_location) {
     return status
 }
 
+function buildSelectOptions(selected_location) {
+  let loc_string = key_locations.map(
+    loc => html`<option value="${loc}">${loc}</option>`
+  );
+
+  return loc_string
+}
+
 function siteClicked(e) {
   // e = event
-  selected_location.selected = e.target.feature.properties.label
+
+  if (e.target.feature && e.target.feature.properties.label != null) {
+    selected_location.selected = e.target.feature.properties.label;
+    loc_sel.value = selected_location.selected
+  } else {
+    selected_location.selected = e.target.value;
+  }
   const form = document.getElementById("date-scrub");
-  form.i.dispatchEvent(new CustomEvent("input", {bubbles: true}))
+  form.i.dispatchEvent(new CustomEvent("input", {bubbles: true}));
 }
+let loc_sel = document.getElementById('location-select');
+loc_sel.addEventListener('change', siteClicked);
 
 function onEachFeature(feature, layer) {
     //bind click
@@ -104,7 +120,7 @@ function onEachFeature(feature, layer) {
 ```
 </div>
 <div id = "site-ts" class="card grid-colspan-2 grid-rowspan-1" style="min-height: 200px; padding-bottom:20px; padding-left:30px;">
-<h1 style="max-width:1100px">${buildStatusCard(getCurrentSite())} : Sewage percentage at shoreline</h1><h2>${getFormattedDate(keyframe)}</h2>
+<h1 style="max-width:1100px">${buildStatusCard(getCurrentSite())}<select id="location-select" name="location-select">${buildSelectOptions(getCurrentSite())}</select></h1><h2>${getFormattedDate(times[keyframe])}</h2>
   ${resize((width, height) => Plot.plot({
     width: width,
     height: height*0.7,
@@ -114,6 +130,7 @@ function onEachFeature(feature, layer) {
     y: {
       tickFormat: (n) => `${+(10**(n) * 100).toFixed(6)}%`,
       grid: true,
+      label: "Sewage percentage at shoreline"
     },
   marks: [
     Plot.axisX({ ticks: "8 hours" }),
@@ -249,17 +266,17 @@ function buildStatusCard(location) {
     // Low Risk
     if (current_val < risk_low) {
         card = html`
-            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="20px" viewBox="0 0 500 500"><path fill="palegreen" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>${location}
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="20px" viewBox="0 0 500 500"><path fill="palegreen" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
         `;
     // Medium Risk
     } else if (current_val < risk_high) {
         card = html`
-            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="20px" viewBox="0 0 500 500"><path fill="gold" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg>${location}
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="20px" viewBox="0 0 500 500"><path fill="gold" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"/></svg>
         `;
     // High Risk
     } else {
         card = html`
-            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="20px" viewBox="0 0 500 500"><path fill="firebrick" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>${location}
+            <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="20px" viewBox="0 0 500 500"><path fill="firebrick" d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480L40 480c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24l0 112c0 13.3 10.7 24 24 24s24-10.7 24-24l0-112c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
         `;
     }
     return card;
