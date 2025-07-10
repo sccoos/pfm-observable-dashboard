@@ -104,7 +104,7 @@ function onEachFeature(feature, layer) {
 ```
 </div>
 <div id = "site-ts" class="card grid-colspan-2 grid-rowspan-1" style="min-height: 200px; padding-bottom:20px; padding-left:30px;">
-<h1 width = "100%">${buildStatusCard(getCurrentSite())} : Sewage percentage at shoreline</h1><h2>${getFormattedDate(keyframe)}</h2>
+<h1 style="max-width:1100px">${buildStatusCard(getCurrentSite())} : Sewage percentage at shoreline</h1><h2>${getFormattedDate(keyframe)}</h2>
   ${resize((width, height) => Plot.plot({
     width: width,
     height: height*0.7,
