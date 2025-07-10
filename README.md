@@ -6,4 +6,4 @@ FF reset on afternoon of july 6th
 2025-05-16 08:31a PST
 ## FF has done lots of manual deploys
 2025-07-09 ~14:00 PDT
-2025-07-10 ~15:00 redeploy
+2025-07-10 ~15:00 redeploy stuff
