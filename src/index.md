@@ -183,7 +183,9 @@ The county’s official beach water quality conditions are reported by the Count
 of San Diego Beach & Bay Water Quality Program. Current advisories, warnings,
 and closures are updated daily and can be found at <a href="https://www.sdbeachinfo.com/">County of San Diego Beach Water Quality</a>. The County of San Diego also maintains the <a href="https://tjdashboard.netlify.app/">Tijuana River Valley Sewage Crisis Environmental Dashboard</a>.
 
-This ocean forecast model is analogous to weather forecast models.  Forecasts are typically 5 days long, but may be as short as 3 days.  Occasionally if forecasts fail, the forecast date is a day behind. The dashed white rectangle box represents the region where the model is providing a forecast.  Outside of this box, no forecast is made. This model uses NOAA forecasts of Tijuana River flow and estimates San Antonio de los Buenos outflow at Punta Bandera MX.  Questions regarding the Pathogen Forecast Model should be addressed to <i>ffeddersen@ucsd.edu</i>.  This forecast is experimental and may contain errors. Not for official use. Accuracy is not guaranteed. 
+This ocean forecast model is analogous to weather forecast models.  Forecasts are typically 5 days long, but may be as short as 3 days.  Occasionally if forecasts fail, the forecast date is a day behind. The dashed white rectangle box represents the region where the model is providing a forecast.  Outside of this box, no forecast is made. This model uses NOAA forecasts of Tijuana River flow and estimates San Antonio de los Buenos outflow at Punta Bandera MX.  Questions regarding the Pathogen Forecast Model should be addressed to <i>ffeddersen@ucsd.edu</i>.  
+
+This forecast is experimental and may contain errors. Not for official use. Accuracy is not guaranteed. 
 
 <span style="color: orange"><b>Funding provided by the State of California.</b></span>
 </p>
