@@ -35,9 +35,9 @@ async function loadContours() {
 <link rel="stylesheet" href="index.css">
 <div class="grid grid-cols-3 grid-rows-2" style="grid-auto-rows: auto;">
 
-  <div class="card grid-colspan-1 grid-rowspan-1"><h1>Pathogen Forecast Model [beta]</h1>
+  <div class="card grid-colspan-1 grid-rowspan-1"><h1>Pathogen Forecast Model Phase 1</h1>
 
-  <div class="warning" label="Beta Release Notes:">
+  <div class="warning" label="Phase 1 Release Notes:">
     This forecast updates at 6:30AM US/Pacific. The current forecast range is
   ${getFormattedDate(times[0])} - ${getFormattedDate(times[times.length-1])}    
       <hr/>
@@ -165,26 +165,25 @@ function onEachFeature(feature, layer) {
 </div></div>
 <div class="card grid-colspan-1" style="min-height: 60vh">
 <p>
-Here, forecasts of sewage at the ocean surface are provided for the San Diego/Tijuana border region.  Forecasts are typically 5 days long, but may be as short as 3 days.  Occasionally if forecasts fail, the forecast date is a day behind. The dashed white rectangle box represents the region where the model is providing a forecast.  Outside of this box, no forecast is made.
-  
-Colored contour lines represent the percentage of sewage at the ocean surface.  A value of 100% is pure sewage and a value of zero is pure ocean water.  Contours go from a high of 10% sewage to a low of 0.0005% sewage.  
+Forecasts of sewage at the ocean surface are provided for the San Diego/Tijuana border region.  
+In the map on the left, colored contour lines represent the percentage of sewage at the ocean surface.  A value of 100% is pure sewage and a value of zero is pure ocean water.  Contours go from a high of 10% sewage to a low of 0.0005% sewage.  
 
-The color at the shoreline indicates swimmer Norovirus illness risk based on sewage percentage with
+The color at the shoreline indicates swimmer illness risk based on sewage percentage with
 <ul>
   <li> Red indicates high risk representing greater than 0.1% sewage</li>
   <li> Yellow indicates moderate risk at values between 0.001% and 0.1% sewage</li>
   <li> Green indicates low risk at values less than 0.001% sewage</li>
 </ul>
 
-Four swimming locations from south to north – Playas de Tijuana, Imperial Beach Pier, Silver Strand, and Coronado, Avenida Lunar – are labeled with large circle.  Click on the circle to see a more detailed forecast (shown above) at these locations.  In the graph above, sewage concentration is given in percentages with the high, moderate, and low swimmer risk indicated with the colored background.
+Four swimming locations from south to north – Playas de Tijuana, Imperial Beach Pier, Silver Strand, and Coronado, Avenida Lunar – are labeled with circles.  Click on the circle to see a more detailed forecast (shown above) at these locations. There is also a drop-down menu in the detailed forecast shown above.  In the graph above, sewage concentration is given in percentages with the high, moderate, and low swimmer risk indicated with the colored background.
 
-Swimmer illness risk is based upon <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021GH000490" target="_blank">Feddersen et al. (2021)</a>.  A value of 0.1% sewage corresponds to a 10% risk of GI illness and a value of 0.001% sewage corresponds to a 1% risk of swimmer illness.
+Swimmer illness risk is based upon risk of illness from norovirus  <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021GH000490" target="_blank">Feddersen et al. (2021)</a>.  A value of 0.1% sewage corresponds to a 10% risk of swimmer illness and a value of 0.001% sewage corresponds to a 1% risk of swimmer illness.
 
 The county’s official beach water quality conditions are reported by the County
 of San Diego Beach & Bay Water Quality Program. Current advisories, warnings,
-and closures are updated daily and can be found at <a href="https://www.sdbeachinfo.com/">County of San Diego Beach Water Quality</a>.
+and closures are updated daily and can be found at <a href="https://www.sdbeachinfo.com/">County of San Diego Beach Water Quality</a>. The County of San Diego also maintains the <a href="https://tjdashboard.netlify.app/">Tijuana River Valley Sewage Crisis Environmental Dashboard</a>.
 
-This ocean forecast model is analogous to weather forecast models.  This model uses NOAA forecasts of Tijuana River flow and estimates San Antonio de los Buenos outflow at Punta Bandera MX.  Questions regarding the Pathogen Forecast Model should be addressed to ffeddersen@ucsd.edu.  This forecast is experimental and may contain errors. Not for official use. Accuracy is not guaranteed. 
+This ocean forecast model is analogous to weather forecast models.  Forecasts are typically 5 days long, but may be as short as 3 days.  Occasionally if forecasts fail, the forecast date is a day behind. The dashed white rectangle box represents the region where the model is providing a forecast.  Outside of this box, no forecast is made. This model uses NOAA forecasts of Tijuana River flow and estimates San Antonio de los Buenos outflow at Punta Bandera MX.  Questions regarding the Pathogen Forecast Model should be addressed to <i>ffeddersen@ucsd.edu</i>.  This forecast is experimental and may contain errors. Not for official use. Accuracy is not guaranteed. 
 
 <span style="color: orange"><b>Funding provided by the State of California.</b></span>
 </p>
