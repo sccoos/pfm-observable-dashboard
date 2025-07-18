@@ -14,13 +14,19 @@ import io
 import sys
 from datetime import datetime, timedelta
 import pytz
+import os
 
 ## Read NetCDF file
 ### Read .nc model output from Falk web server
 tempfile = "./web_data_latest.nc"
-x = f"https://falk.ucsd.edu/PFM_Forecast/LV4_His/web_data_latest.nc"
-urllib.request.urlretrieve(x, tempfile)
-ds = xr.open_dataset(tempfile, decode_timedelta=False)
+local_file = "/project/web_data_latest.nc"
+remote_url = "https://falk.ucsd.edu/PFM_Forecast/LV4_His/web_data_latest.nc"
+
+if os.path.isfile(local_file):
+    ds = xr.open_dataset(local_file, decode_timedelta=False)
+else:
+    urllib.request.urlretrieve(remote_url, tempfile)
+    ds = xr.open_dataset(tempfile, decode_timedelta=False)
 
 ## Sites time series csv
 # Extract the sites_dye_tot variable and its coordinates
