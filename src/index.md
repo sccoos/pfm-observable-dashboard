@@ -189,7 +189,7 @@ This forecast is experimental and may contain errors. Not for official use. Accu
 
 <span style="color: orange"><b>Funding provided by the State of California.</b></span>
 
-<span style="color: orange"><b>A guide to the PFM dashboard can be found on youtube <a href="https://youtu.be/WXC5MhBmMfg">here</a></b></span>
+<span style="color: orange"><b>A guide to the PFM dashboard can be found on youtube here</b></span>
 </p>
 </div>
 
