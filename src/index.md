@@ -180,7 +180,7 @@ Four swimming locations from south to north – Playas de Tijuana, Imperial Beac
 Swimmer illness risk is based upon risk of illness from norovirus  <a href="https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2021GH000490" target="_blank">Feddersen et al. (2021)</a>.  A value of 0.1% sewage corresponds to a 10% risk of swimmer illness and a value of 0.001% sewage corresponds to a 1% risk of swimmer illness.
 
 The county’s official beach water quality conditions are reported by the County
-of San Diego Beach & Bay Water Quality Program. Current advisories, warnings,
+of San Diego Beach & Bay Water Quality Monitoring Program. Current advisories, warnings,
 and closures are updated daily and can be found at <a href="https://www.sdbeachinfo.com/">County of San Diego Beach Water Quality</a>. The County of San Diego also maintains the <a href="https://tjdashboard.netlify.app/">Tijuana River Valley Sewage Crisis Environmental Dashboard</a>.
 
 This ocean forecast model is analogous to weather forecast models.  Forecasts are typically 5 days long, but may be as short as 3 days.  Occasionally if forecasts fail, the forecast date is a day behind. The dashed white rectangle box represents the region where the model is providing a forecast.  Outside of this box, no forecast is made. This model uses NOAA forecasts of Tijuana River flow and estimates San Antonio de los Buenos outflow at Punta Bandera MX.  Questions regarding the Pathogen Forecast Model should be addressed to <i>ffeddersen@ucsd.edu</i>.  
