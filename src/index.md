@@ -188,6 +188,8 @@ This ocean forecast model is analogous to weather forecast models.  Forecasts ar
 This forecast is experimental and may contain errors. Not for official use. Accuracy is not guaranteed. 
 
 <span style="color: orange"><b>Funding provided by the State of California.</b></span>
+
+<span style="color: orange"><b>A guide to the PFM dashboard can be found on youtube here</b></span>
 </p>
 </div>
 
