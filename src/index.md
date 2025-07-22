@@ -32,6 +32,15 @@ async function loadContours() {
 }
 
 ```
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZKCR4N818C"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZKCR4N818C');
+</script>
 <link rel="stylesheet" href="index.css">
 <div class="grid grid-cols-3 grid-rows-2" style="grid-auto-rows: auto;">
 
