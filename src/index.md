@@ -156,7 +156,7 @@ function onEachFeature(feature, layer) {
 
 </div>
 <div class="card grid-colspan-2" style="padding: 0;"><div id="map-SD" style="height: 100%; min-height: 400px; width: 100%; z-index: 1; position: relative;">
-<div style="display: flex; flex-direction: column; justify-content: center; position: absolute; bottom: 5%; left: 65%; z-index: 9999; background-color: rgba(255, 255, 255, 0.0); pointer-events: none;">
+<div style="display: flex; flex-direction: column; justify-content: center; position: absolute; bottom: 5%; left: 70%; z-index: 9999; background-color: rgba(255, 255, 255, 0.0); pointer-events: none;">
 <img style="padding: 1em" src = "https://s2020.s3.amazonaws.com/media/logo-scripps-ucsd-dark.png" width = "70%"></img>
 <img style="padding: 1em" src = "https://sccoos.org/wp-content/uploads/2022/05/SCCOOS_logo-01.png" width = "70%"></img>
 <img style="padding: 1em" src = "https://falk.ucsd.edu/CDIP_text.png" width = "50%"></img>
