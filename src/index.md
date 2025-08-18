@@ -45,6 +45,11 @@ async function loadContours() {
 <div class="grid grid-cols-3 grid-rows-2" style="grid-auto-rows: auto;">
 
   <div class="card grid-colspan-1 grid-rowspan-1"><h1>Pathogen Forecast Model Phase 1</h1>
+  <!-- inserted free language toggle widget, need to attach onChange -->
+  <div class="gtranslate_wrapper"></div>
+  <script>window.gtranslateSettings = {"default_language":"en","native_language_names":true,"detect_browser_language":true,"languages":["en","es"],"wrapper_selector":".gtranslate_wrapper","switcher_horizontal_position":"inline","float_switcher_open_direction":"right","alt_flags":{"en":"usa","es":"mexico"}}</script>
+  <script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
+  <!---->
 
   <div class="warning" label="Phase 1 Release Notes:">
     This forecast updates at 6:30AM US/Pacific. The current forecast range is
@@ -129,7 +134,7 @@ function onEachFeature(feature, layer) {
 ```
 </div>
 <div id = "site-ts" class="card grid-colspan-2 grid-rowspan-1" style="min-height: 200px; padding-bottom:20px; padding-left:30px;">
-<h1 style="max-width:1100px">${buildStatusCard(getCurrentSite())}<select id="location-select" name="location-select">${buildSelectOptions(getCurrentSite())}</select></h1><h2>${getFormattedDate(times[keyframe])}</h2>
+<h1 style="max-width:1100px">${buildStatusCard(getCurrentSite())}<select id="location-select" name="location-select">${buildSelectOptions(getCurrentSite())}</select></h1><p>${getFormattedDate(times[keyframe])}</p>
   ${resize((width, height) => Plot.plot({
     width: width,
     height: height*0.7,
@@ -139,6 +144,7 @@ function onEachFeature(feature, layer) {
     y: {
       tickFormat: (n) => `${+(10**(n) * 100).toFixed(6)}%`,
       grid: true,
+      ticks: 5,
       label: "Sewage percentage at shoreline"
     },
   marks: [
